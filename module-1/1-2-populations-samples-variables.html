@@ -946,5 +946,45 @@ function checkQ() {
 
 function nextQ() { qIdx++; renderQ(); }
 </script>
+<!-- My Academic Tutor platform footer with logo -->
+<footer class="mat-platform-footer">
+  <div class="mat-footer-brand">
+    <img class="mat-footer-logo" src="../assets/my-academic-tutor-logo.png" alt="My Academic Tutor logo">
+    <div>
+      <p><strong>Statistics Foundation for University Students</strong></p>
+      <p>Course developed by <strong>My Academic Tutor</strong>.</p>
+      <p>© 2026 My Academic Tutor. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<style id="mat-platform-footer-style">
+.mat-platform-footer{
+  max-width:960px;
+  margin:34px auto 0;
+  padding:22px 34px;
+  border-top:1px solid var(--border, #ded9cf);
+  color:var(--text2, #5f5f5a);
+  font-size:13px;
+  line-height:1.65;
+}
+.mat-platform-footer p{margin:0 0 4px 0;}
+.mat-platform-footer strong{color:var(--text, #171717);}
+.mat-footer-brand{display:flex;align-items:center;gap:12px;}
+.mat-footer-logo{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid var(--border, #ded9cf);
+  padding:5px;
+  flex:0 0 auto;
+}
+@media(max-width:850px){
+  .mat-platform-footer{padding:20px 18px;}
+  .mat-footer-brand{align-items:flex-start;}
+}
+</style>
+
 </body>
 </html>
