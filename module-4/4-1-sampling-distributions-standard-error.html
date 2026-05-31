@@ -40,20 +40,26 @@ h2{font-size:19px;font-weight:500;color:var(--text);margin:32px 0 11px}h3{font-s
 </head>
 <body>
 <nav class="sidebar">
-  <div class="sidebar-brand"><div class="brand-course">Foundational Statistics</div><div class="brand-title">Module 4: Inferential Statistics</div></div>
-  <div class="progress-wrap"><div class="progress-bar"></div></div>
-  <div class="nav-section">Module 3</div>
-  <a class="nav-item" href="../module-3/3-1-probability-basics-axioms.html"><div class="nav-dot"></div>3.1 Probability basics & axioms</a>
-  <a class="nav-item" href="../module-3/3-2-conditional-probability-bayes.html"><div class="nav-dot"></div>3.2 Conditional probability & Bayes</a>
-  <a class="nav-item" href="../module-3/3-3-random-variables-expectation.html"><div class="nav-dot"></div>3.3 Random variables & expectation</a>
-  <a class="nav-item" href="../module-3/3-4-discrete-distributions.html"><div class="nav-dot"></div>3.4 Discrete distributions</a>
-  <a class="nav-item" href="../module-3/3-5-normal-distribution-clt.html"><div class="nav-dot"></div>3.5 Normal distribution & CLT</a>
-  <div class="nav-section">Module 4</div>
+  <div class="sidebar-brand">
+    <div class="brand-course">Foundational Statistics</div>
+    <div class="brand-title">Statistics Foundation for University Students</div>
+  </div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="sidebar-progress" style="width:80%;"></div></div>
+
+  <div class="nav-section">Course modules</div>
+  <a class="nav-item" href="../module-1/index.html"><div class="nav-dot"></div>Module 1 · Introduction</a>
+  <a class="nav-item" href="../module-2/index.html"><div class="nav-dot"></div>Module 2 · Descriptive statistics</a>
+  <a class="nav-item" href="../module-3/index.html"><div class="nav-dot"></div>Module 3 · Probability</a>
+  <a class="nav-item active" href="../module-4/index.html"><div class="nav-dot"></div>Module 4 · Statistical inference</a>
+  <a class="nav-item" href="../module-5/index.html"><div class="nav-dot"></div>Module 5 · Regression</a>
+
+  <div class="nav-section">Module 4 lessons</div>
   <a class="nav-item active" href="4-1-sampling-distributions-standard-error.html"><div class="nav-dot"></div>4.1 Sampling distributions & SE</a>
-  <a class="nav-item" href="4-2-confidence-intervals.html"><div class="nav-dot"></div>4.2 Confidence intervals</a>
-  <a class="nav-item" href="4-3-hypothesis-testing-framework.html"><div class="nav-dot"></div>4.3 Hypothesis testing framework</a>
-  <a class="nav-item" href="4-4-t-tests-z-tests-proportions.html"><div class="nav-dot"></div>4.4 t-tests, z-tests & proportions</a>
-  <a class="nav-item" href="4-5-chi-square-non-parametric-tests.html"><div class="nav-dot"></div>4.5 Chi-square & non-parametric tests</a>
+  <a class="nav-item done" href="4-2-confidence-intervals.html"><div class="nav-dot"></div>4.2 Confidence intervals</a>
+  <a class="nav-item done" href="4-3-hypothesis-testing-framework.html"><div class="nav-dot"></div>4.3 Hypothesis testing framework</a>
+  <a class="nav-item done" href="4-4-t-tests-z-tests-proportions.html"><div class="nav-dot"></div>4.4 t-tests, z-tests & proportions</a>
+  <a class="nav-item done" href="4-5-chi-square-non-parametric-tests.html"><div class="nav-dot"></div>4.5 Chi-square & non-parametric tests</a>
 </nav>
 
 <div class="main">
@@ -672,14 +678,12 @@ function nextQuiz(){quizIndex++;renderQuiz();}
 <footer class="mat-platform-footer">
   <div class="mat-footer-brand">
     <img class="mat-footer-logo" src="../assets/my-academic-tutor-logo.png" alt="My Academic Tutor logo">
-    <div>
-      <p><strong>Statistics Foundation for University Students</strong></p>
-      <p>Course developed by <strong>My Academic Tutor</strong>.</p>
-      <p>© 2026 My Academic Tutor. All rights reserved.</p>
-    </div>
+    <p><strong>Statistics Foundation for University Students</strong></p>
   </div>
+  <p>Course developed by <strong>My Academic Tutor</strong>.</p>
+  <p>© 2026 My Academic Tutor. All rights reserved.</p>
 </footer>
-<style id="mat-platform-footer-style">
+<style>
 .mat-platform-footer{
   max-width:960px;
   margin:34px auto 0;
@@ -689,23 +693,10 @@ function nextQuiz(){quizIndex++;renderQuiz();}
   font-size:13px;
   line-height:1.65;
 }
-.mat-platform-footer p{margin:0 0 4px 0;}
 .mat-platform-footer strong{color:var(--text, #171717);}
-.mat-footer-brand{display:flex;align-items:center;gap:12px;}
-.mat-footer-logo{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-  border-radius:10px;
-  background:#fff;
-  border:1px solid var(--border, #ded9cf);
-  padding:5px;
-  flex:0 0 auto;
-}
-@media(max-width:850px){
-  .mat-platform-footer{padding:20px 18px;}
-  .mat-footer-brand{align-items:flex-start;}
-}
+.mat-footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.mat-footer-logo{width:36px;height:36px;object-fit:contain;border-radius:9px;background:#fff;border:1px solid var(--border, #ded9cf);padding:4px;}
+@media(max-width:850px){.mat-platform-footer{padding:20px 18px;}}
 </style>
 
 </body>
