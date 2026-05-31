@@ -7,20 +7,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
 <style>
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg:#ffffff; --bg2:#f6f5f0; --bg3:#f0ede6; --border:#e0ddd6;
-    --text:#1a1a18; --text2:#5a5a56; --text3:#8a8a84;
-    --blue:#378ADD; --blue-bg:#E6F1FB; --blue-txt:#0C447C;
-    --green:#3B6D11; --green-bg:#EAF3DE;
-    --amber:#BA7517; --amber-bg:#FAEEDA; --amber-txt:#633806;
-    --red:#A32D2D; --red-bg:#FCEBEB;
-    --purple:#534AB7; --purple-bg:#EEEDFE; --purple-txt:#3C3489;
-    --radius:8px; --radius-lg:12px; --mono:'Courier New', monospace; --sans:system-ui,-apple-system,sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg:#1c1c1a; --bg2:#252523; --bg3:#2e2e2b; --border:#3a3a36; --text:#e8e6df; --text2:#a8a69f; --text3:#6a6a64; --blue-bg:#0c1f35; --blue-txt:#85B7EB; --green-bg:#0f2005; --amber-bg:#2a1800; --amber-txt:#FAC775; --red-bg:#2a0a0a; --purple-bg:#1a1740; --purple-txt:#AFA9EC; }
-  }
+  :root { --bg:#ffffff; --bg2:#f6f5f0; --bg3:#f0ede6; --border:#e0ddd6; --text:#1a1a18; --text2:#5a5a56; --text3:#8a8a84; --blue:#378ADD; --blue-bg:#E6F1FB; --blue-txt:#0C447C; --green:#3B6D11; --green-bg:#EAF3DE; --amber:#BA7517; --amber-bg:#FAEEDA; --amber-txt:#633806; --red:#A32D2D; --red-bg:#FCEBEB; --purple:#534AB7; --purple-bg:#EEEDFE; --purple-txt:#3C3489; --radius:8px; --radius-lg:12px; --mono:'Courier New', monospace; --sans:system-ui,-apple-system,sans-serif; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1c1c1a; --bg2:#252523; --bg3:#2e2e2b; --border:#3a3a36; --text:#e8e6df; --text2:#a8a69f; --text3:#6a6a64; --blue-bg:#0c1f35; --blue-txt:#85B7EB; --green-bg:#0f2005; --amber-bg:#2a1800; --amber-txt:#FAC775; --red-bg:#2a0a0a; --purple-bg:#1a1740; --purple-txt:#AFA9EC; } }
   html { font-family:var(--sans); font-size:16px; color:var(--text); background:var(--bg3); scroll-behavior:smooth; }
   body { display:flex; min-height:100vh; }
   .sidebar { width:260px; min-width:260px; background:var(--bg); border-right:0.5px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; }
@@ -28,7 +18,7 @@
   .brand-course { font-size:11px; font-weight:500; color:var(--blue); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:4px; }
   .brand-title { font-size:13px; font-weight:500; color:var(--text); line-height:1.4; }
   .progress-wrap { height:3px; background:var(--border); }
-  .progress-bar { height:3px; background:var(--blue); width:24%; }
+  .progress-bar { height:3px; background:var(--blue); width:28%; }
   .nav-section { font-size:10px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; padding:12px 16px 4px; }
   .nav-item { display:flex; align-items:center; gap:8px; padding:7px 16px; font-size:12.5px; color:var(--text2); cursor:pointer; border-left:2px solid transparent; text-decoration:none; transition:background 0.12s; }
   .nav-item:hover { background:var(--bg2); color:var(--text); }
@@ -38,7 +28,7 @@
   .nav-item.active .nav-dot { background:var(--blue); }
   .main { flex:1; min-width:0; }
   .tab-bar { background:var(--bg); border-bottom:0.5px solid var(--border); display:flex; padding:0 32px; position:sticky; top:0; z-index:10; overflow-x:auto; }
-  .tab { padding:12px 16px; font-size:13px; color:var(--text2); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-0.5px; background:none; border-top:none; border-left:none; border-right:none; font-family:var(--sans); white-space:nowrap; }
+  .tab { padding:12px 16px; font-size:13px; color:var(--text2); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-0.5px; background:none; border-top:none; border-left:none; border-right:none; font-family:var(--sans); transition:color 0.12s; white-space:nowrap; }
   .tab:hover { color:var(--text); }
   .tab.active { color:var(--text); border-bottom-color:var(--blue); font-weight:500; }
   .content { max-width:820px; margin:0 auto; padding:32px; }
@@ -70,7 +60,7 @@
   .line { display:flex; gap:12px; align-items:flex-start; }
   .line.right { flex-direction:row-reverse; }
   .speaker-badge { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; flex-shrink:0; margin-top:2px; }
-  .sp-prof{background:var(--blue-bg);color:var(--blue-txt);} .sp-emma{background:var(--green-bg);color:var(--green);} .sp-oliver{background:var(--amber-bg);color:var(--amber-txt);} .sp-james{background:var(--purple-bg);color:var(--purple-txt);} .sp-sophia{background:var(--red-bg);color:var(--red);}
+  .sp-prof{background:var(--blue-bg);color:var(--blue-txt)} .sp-emma{background:var(--green-bg);color:var(--green)} .sp-oliver{background:var(--amber-bg);color:var(--amber-txt)} .sp-james{background:var(--purple-bg);color:var(--purple-txt)} .sp-sophia{background:var(--red-bg);color:var(--red)}
   .bubble { max-width:76%; background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:10px 14px; }
   .line.right .bubble { background:var(--blue-bg); border-color:transparent; }
   .speaker-name { font-size:11px; font-weight:500; color:var(--text3); margin-bottom:3px; }
@@ -89,11 +79,11 @@
   .deriv-box { border:0.5px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; margin:20px 0; }
   .deriv-header { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:var(--bg2); border-bottom:0.5px solid var(--border); gap:12px; }
   .deriv-title { font-size:13px; font-weight:500; color:var(--text); }
-  .reveal-btn { background:none; border:0.5px solid var(--border); border-radius:var(--radius); padding:5px 12px; font-size:12px; cursor:pointer; color:var(--text2); font-family:var(--sans); white-space:nowrap; }
+  .reveal-btn { background:none; border:0.5px solid var(--border); border-radius:var(--radius); padding:5px 12px; font-size:12px; cursor:pointer; color:var(--text2); font-family:var(--sans); }
   .reveal-btn:hover { background:var(--bg3); }
   .step-row { display:flex; gap:14px; padding:12px 16px; border-bottom:0.5px solid var(--border); animation:fadeIn 0.25s ease; }
   .step-row:last-child { border-bottom:none; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
   .step-num { width:24px; height:24px; border-radius:50%; background:var(--blue-bg); color:var(--blue-txt); font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
   .step-content .step-eq { font-family:var(--mono); font-size:14px; color:var(--text); margin-bottom:4px; }
   .step-content .step-note { font-size:12.5px; color:var(--text3); line-height:1.5; }
@@ -101,25 +91,28 @@
   .ctrl { display:flex; align-items:center; gap:8px; }
   .ctrl label { font-size:12.5px; color:var(--text2); white-space:nowrap; }
   .ctrl input[type=range] { width:130px; accent-color:var(--blue); }
-  .ctrl-val { font-size:12.5px; font-weight:500; color:var(--text); min-width:34px; }
+  .ctrl-val { font-size:12.5px; font-weight:500; color:var(--text); min-width:35px; }
   .stat-row { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
-  .stat-card { flex:1; min-width:120px; background:var(--bg2); border-radius:var(--radius); padding:10px 14px; text-align:center; }
+  .stat-card { flex:1; min-width:110px; background:var(--bg2); border-radius:var(--radius); padding:10px 14px; text-align:center; }
   .stat-card .sc-label { font-size:11px; color:var(--text3); margin-bottom:4px; }
   .stat-card .sc-val { font-size:20px; font-weight:500; color:var(--text); }
-  .chart-wrap { position:relative; width:100%; height:260px; }
+  .chart-wrap { position:relative; width:100%; height:250px; }
   .plot-box { border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:16px; margin:16px 0; }
   .plot-title { font-size:13px; font-weight:500; color:var(--text); margin-bottom:4px; }
   .plot-sub { font-size:12px; color:var(--text3); margin-bottom:14px; }
-  .mini-data { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0; }
-  .pill { font-size:12px; padding:4px 8px; border-radius:12px; background:var(--bg2); border:0.5px solid var(--border); color:var(--text2); }
+  .choice-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin:16px 0; }
+  .choice-card { border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:12px 14px; cursor:pointer; background:var(--bg); }
+  .choice-card:hover { background:var(--bg2); }
+  .choice-card .choice-title { font-size:13.5px; font-weight:500; color:var(--text); margin-bottom:4px; }
+  .choice-card .choice-sub { font-size:12.5px; color:var(--text3); line-height:1.5; }
   .exercise { border:0.5px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; margin:16px 0; }
   .ex-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; cursor:pointer; }
   .ex-header:hover { background:var(--bg2); }
   .ex-qnum { font-size:11px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; }
   .ex-qtitle { font-size:14px; font-weight:500; color:var(--text); margin-top:2px; }
   .ex-difficulty { font-size:11px; padding:2px 8px; border-radius:10px; }
-  .diff-easy { background:var(--green-bg); color:var(--green); } .diff-medium { background:var(--amber-bg); color:var(--amber-txt); } .diff-hard { background:var(--red-bg); color:var(--red); }
-  .ex-toggle { font-size:18px; color:var(--text3); }
+  .diff-easy{background:var(--green-bg);color:var(--green)} .diff-medium{background:var(--amber-bg);color:var(--amber-txt)} .diff-hard{background:var(--red-bg);color:var(--red)}
+  .ex-toggle { font-size:18px; color:var(--text3); transition:transform 0.2s; }
   .ex-body { display:none; padding:0 16px 16px; border-top:0.5px solid var(--border); }
   .ex-body.open { display:block; }
   .ex-question { font-size:14px; color:var(--text2); line-height:1.7; margin:12px 0; }
@@ -131,7 +124,7 @@
   .answer-box p, .answer-box li { font-size:13.5px; color:var(--text); line-height:1.65; }
   .quiz-q { font-size:14.5px; font-weight:500; color:var(--text); margin-bottom:14px; line-height:1.55; }
   .quiz-opts { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
-  .quiz-opt { display:flex; align-items:center; gap:10px; padding:11px 14px; border:0.5px solid var(--border); border-radius:var(--radius); cursor:pointer; font-size:13.5px; color:var(--text2); }
+  .quiz-opt { display:flex; align-items:center; gap:10px; padding:11px 14px; border:0.5px solid var(--border); border-radius:var(--radius); cursor:pointer; font-size:13.5px; color:var(--text2); transition:all 0.12s; }
   .quiz-opt:hover:not(.locked) { border-color:var(--blue); background:var(--blue-bg); color:var(--text); }
   .quiz-opt.selected { border-color:var(--blue); background:var(--blue-bg); color:var(--text); }
   .quiz-opt.correct { border-color:var(--green); background:var(--green-bg); color:var(--green); }
@@ -149,14 +142,37 @@
   .quiz-progress { font-size:11.5px; color:var(--text3); margin-bottom:20px; }
   .quiz-complete { text-align:center; padding:32px 0; }
   .quiz-complete .score-big { font-size:48px; font-weight:500; color:var(--text); }
+  @media (max-width:760px) { body { display:block; } .sidebar { position:relative; width:100%; height:auto; min-width:0; } .content { padding:24px 18px; } .bubble { max-width:84%; } }
+
+
+  @media (max-width:850px) {
+    html, body { width:100%; max-width:100%; overflow-x:hidden; }
+    body { display:block; min-height:auto; }
+    .sidebar { position:relative; width:100%; min-width:0; max-width:100%; height:auto; max-height:none; border-right:none; border-bottom:0.5px solid var(--border); overflow:visible; }
+    .main { display:block; width:100%; max-width:100%; min-width:0; overflow:visible; }
+    .tab-bar { position:sticky; top:0; z-index:20; padding:0 12px; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .tab { flex:0 0 auto; padding:13px 16px; font-size:15px; }
+    .content { width:100%; max-width:100%; margin:0; padding:26px 18px 38px; overflow-x:hidden; }
+    h1 { font-size:32px; line-height:1.15; word-break:normal; overflow-wrap:normal; }
+    h2 { font-size:22px; }
+    p, li { font-size:16px; }
+    .lesson-meta { font-size:14px; line-height:1.55; }
+    .scene-label { max-width:100%; white-space:normal; line-height:1.5; }
+    .bubble { max-width:calc(100% - 48px); min-width:0; padding:14px 16px; }
+    .bubble p { font-size:16px; line-height:1.65; overflow-wrap:break-word; }
+    .speaker-badge { width:38px; height:38px; min-width:38px; }
+    .math-block { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:14px 12px; }
+    .plot-box,.exercise,.takeaway,.def-box { width:100%; max-width:100%; }
+    .chart-wrap { height:280px; }
+    .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { min-width:560px; }
+  }
+
 </style>
 </head>
 <body>
 <nav class="sidebar">
-  <div class="sidebar-brand">
-    <div class="brand-course">Foundational Statistics</div>
-    <div class="brand-title">Module 2: Descriptive Statistics</div>
-  </div>
+  <div class="sidebar-brand"><div class="brand-course">Foundational Statistics</div><div class="brand-title">Module 2: Descriptive Statistics</div></div>
   <div class="progress-wrap"><div class="progress-bar" id="sidebar-progress"></div></div>
   <div class="nav-section">Module 1</div>
   <a class="nav-item done" href="../module-1/1-1-what-is-statistics.html"><div class="nav-dot"></div>1.1 What is statistics?</a>
@@ -182,426 +198,286 @@
   </div>
 
   <div class="content">
-    <section id="sec-lecture" class="section active">
-      <div class="lesson-eyebrow">Module 2 · Topic 1</div>
-      <h1>Measures of centre</h1>
-      <div class="lesson-meta">Mr. R · Emma, Oliver, James, Sophia · ~22 min · Descriptive statistics</div>
 
-      <div class="scene-label">📍 Scene — the class returns after collecting their first dataset</div>
+<section id="sec-lecture" class="section active">
+  <div class="lesson-eyebrow">Module 2 · Topic 1</div>
+  <h1>Measures of centre</h1>
+  <div class="lesson-meta">Mr. R · Emma, Oliver, James, Sophia · ~22 min · Descriptive statistics</div>
 
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-emma">EM</div>
-          <div class="bubble"><div class="speaker-name">Emma</div><p>We have collected data now. I suppose the next step is to calculate the average?</p></div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble"><div class="speaker-name">Mr. R</div><p>Yes, but be careful. In statistics, “average” is not one idea. It can mean the mean, the median, or the mode. Each answers a slightly different question about the centre of a dataset.</p></div>
-        </div>
-        <div class="line">
-          <div class="speaker-badge sp-oliver">OL</div>
-          <div class="bubble"><div class="speaker-name">Oliver</div><p>I thought the mean was the proper average. Why do we need the others?</p></div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble"><div class="speaker-name">Mr. R</div><p>The mean is powerful, but it can be distorted by extreme values. If nine students spend £20 on lunch and one student spends £200, the mean lunch cost will not describe a typical student very well.</p></div>
-        </div>
-      </div>
+  <div class="scene-label">📍 Scene — the class returns after collecting their first dataset</div>
 
-      <h2>The big idea</h2>
-      <p>A measure of centre tries to answer a simple but important descriptive question: <strong>where is the data concentrated?</strong> It reduces many observations into one representative value. But the word “representative” is delicate: different datasets require different measures.</p>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-emma">EM</div><div class="bubble"><div class="speaker-name">Emma</div><p>We have collected data now. I suppose the next step is to find the average?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>Yes, but let us be precise. In statistics, “average” can mean different things. Today we study the main measures of centre: mean, median and mode.</p></div></div>
+    <div class="line"><div class="speaker-badge sp-oliver">OL</div><div class="bubble"><div class="speaker-name">Oliver</div><p>Are mean, median and mode all trying to answer the same question?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>They all describe a central or typical value, but each one defines “typical” differently.</p></div></div>
+  </div>
 
-      <div class="def-box">
-        <div class="def-label">Measure of centre</div>
-        <p>A numerical summary that describes a central, typical, or common value in a dataset. The main measures are the mean, median, and mode.</p>
-      </div>
+  <div class="def-box amber"><div class="def-label">Big idea</div><p>A measure of centre is a single value chosen to represent the middle, balance point, or most typical value in a dataset.</p></div>
 
-      <h2>Mean, median, and mode in conversation</h2>
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-james">JA</div>
-          <div class="bubble"><div class="speaker-name">James</div><p>So the mean uses every value. That sounds better because it uses all the information.</p></div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble"><div class="speaker-name">Mr. R</div><p>Good point. The mean does use every value, and that is its strength. But it is also its weakness, because one extreme value can pull the mean away from the bulk of the data.</p></div>
-        </div>
-        <div class="line">
-          <div class="speaker-badge sp-sophia">SO</div>
-          <div class="bubble"><div class="speaker-name">Sophia</div><p>Then the median is the middle value, so it ignores the extreme value?</p></div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble"><div class="speaker-name">Mr. R</div><p>It does not ignore the data completely, but it depends only on position after ordering the values. That makes it resistant to outliers and often better for skewed variables such as income, rent, waiting time, and hospital length of stay.</p></div>
-        </div>
-      </div>
+  <h2>Why centre matters</h2>
+  <p>Raw data can be long and difficult to interpret. A measure of centre helps us summarise a dataset with one meaningful value. For example, we may report the average age of students, the median waiting time in a clinic, or the most common blood group in a sample.</p>
 
-      <h2>A small example</h2>
-      <p>Suppose five patients wait the following number of minutes before seeing a doctor:</p>
-      <div class="math-block">12, 14, 15, 16, 73</div>
-      <p>The mean is:</p>
-      <div class="math-block">x̄ = (12 + 14 + 15 + 16 + 73) / 5 = 26</div>
-      <p>The median is 15, because 15 is the middle value after ordering. In this example, the mean says “26 minutes”, but four out of five patients waited 16 minutes or less. The median gives a better description of the typical patient.</p>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-james">JA</div><div class="bubble"><div class="speaker-name">James</div><p>So the centre is like the representative value?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>Exactly. But the best representative value depends on the type and shape of the data.</p></div></div>
+    <div class="line"><div class="speaker-badge sp-sophia">SO</div><div class="bubble"><div class="speaker-name">Sophia</div><p>When would the mean be misleading?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>When the data are skewed or contain extreme values. In those cases, the median may better describe the typical observation.</p></div></div>
+  </div>
 
-      <div class="def-box amber">
-        <div class="def-label">Interpretation warning</div>
-        <p>The mean is not automatically the “best” measure of centre. It is best when the distribution is reasonably symmetric and extreme values are not dominating the summary.</p>
-      </div>
+  <h2>The three main measures</h2>
+  <div class="tbl-wrap"><table><thead><tr><th>Measure</th><th>Definition</th><th>Best use</th><th>Weakness</th></tr></thead><tbody>
+    <tr><td>Mean</td><td>Sum of values divided by number of values</td><td>Roughly symmetric numerical data</td><td>Sensitive to outliers</td></tr>
+    <tr><td>Median</td><td>Middle value after ordering the data</td><td>Skewed data or data with outliers</td><td>Does not use all magnitudes fully</td></tr>
+    <tr><td>Mode</td><td>Most frequently occurring value or category</td><td>Categorical data and repeated values</td><td>May be absent or not unique</td></tr>
+  </tbody></table></div>
 
-      <h2>When does the mode matter?</h2>
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-emma">EM</div>
-          <div class="bubble"><div class="speaker-name">Emma</div><p>What about the mode? It feels less mathematical than the mean and median.</p></div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble"><div class="speaker-name">Mr. R</div><p>The mode is essential for categorical variables. If we record blood groups, treatment categories, degree programmes, or smoking status, the mean and median may not make sense, but the most common category is very meaningful.</p></div>
-        </div>
-      </div>
+  <h2>The mean as a balance point</h2>
+  <p>The mean is not only a calculation. It is the balance point of the data. If the observations were weights placed on a number line, the mean would be the point where the line balances.</p>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Variable</th><th>Possible centre</th><th>Reason</th></tr></thead>
-          <tbody>
-            <tr><td>Age</td><td>Mean or median</td><td>Numerical variable; median preferred if skewed</td></tr>
-            <tr><td>Income</td><td>Median</td><td>Usually right-skewed with high outliers</td></tr>
-            <tr><td>Blood group</td><td>Mode</td><td>Categorical nominal variable</td></tr>
-            <tr><td>Likert satisfaction score</td><td>Median or mode</td><td>Ordinal variable; spacing may not be equal</td></tr>
-            <tr><td>Exam score</td><td>Mean and median</td><td>Often useful to report both</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="math-block">Mean = sum of all observations ÷ number of observations</div>
 
-      <h2>Weighted centre</h2>
-      <p>Sometimes not all observations contribute equally. If a final grade is made from coursework and an exam, the overall centre is not a simple mean of the two marks unless they have equal weights.</p>
-      <div class="math-block">Weighted mean = Σ(wᵢxᵢ) / Σwᵢ</div>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-emma">EM</div><div class="bubble"><div class="speaker-name">Emma</div><p>If one value is very large, does it pull the mean towards it?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>Yes. This is why the mean is powerful but also sensitive. Extreme observations pull the balance point.</p></div></div>
+  </div>
 
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-oliver">OL</div>
-          <div class="bubble"><div class="speaker-name">Oliver</div><p>So if coursework is 30% and exam is 70%, a student with 80 in coursework and 60 in the exam does not have 70 overall?</p></div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble"><div class="speaker-name">Mr. R</div><p>Correct. The weighted mean is 0.30×80 + 0.70×60 = 66. The exam carries more weight, so the final score is closer to 60 than to 80.</p></div>
-        </div>
-      </div>
+  <h2>The median as a middle position</h2>
+  <p>The median is found by arranging the data from smallest to largest and choosing the middle value. If there are two middle values, we take their average.</p>
+  <p>The median is resistant to outliers because it depends on position, not the exact size of extreme values.</p>
 
-      <div class="takeaway">
-        <div class="tk-label">Key takeaways from this lecture</div>
-        <ul>
-          <li>The mean balances the data but is sensitive to outliers.</li>
-          <li>The median describes the middle position and is robust to extreme values.</li>
-          <li>The mode gives the most common value or category.</li>
-          <li>The appropriate measure of centre depends on variable type and distribution shape.</li>
-          <li>For skewed data, report the median and often the interquartile range.</li>
-        </ul>
-      </div>
-    </section>
+  <h2>The mode as the most common value</h2>
+  <p>The mode is the value or category that appears most often. It is especially important for categorical data, where mean and median may not make sense.</p>
 
-    <section id="sec-notes" class="section">
-      <div class="lesson-eyebrow">Detailed notes</div>
-      <h1>Measures of centre</h1>
+  <div class="takeaway"><div class="tk-label">Key takeaways from this lecture</div><ul>
+    <li>Measures of centre summarise a dataset using a typical or central value.</li>
+    <li>The mean is the arithmetic average and acts like a balance point.</li>
+    <li>The median is the middle ordered value and is robust to outliers.</li>
+    <li>The mode is the most frequent value or category.</li>
+    <li>The best measure of centre depends on data type, skewness and extreme values.</li>
+  </ul></div>
+</section>
 
-      <h2>1. Why centre matters in descriptive statistics</h2>
-      <p>Descriptive statistics begins by reducing a collection of observations into summaries that communicate the main features of the data. A measure of centre is one of the most important summaries because it describes where the data are concentrated. However, centre is not a physical location. It is a statistical concept that depends on how the data are distributed and what kind of variable is being summarised.</p>
-      <p>For example, the “centre” of a set of exam scores may mean the arithmetic balance point, the middle student after ranking, or the most commonly occurring score. These can be different numbers, especially when the distribution is skewed, has outliers, or contains repeated values.</p>
+<section id="sec-notes" class="section">
+  <div class="lesson-eyebrow">Detailed notes</div>
+  <h1>Measures of centre</h1>
 
-      <div class="def-box">
-        <div class="def-label">Core descriptive question</div>
-        <p>When we calculate a measure of centre, we are asking: what value gives a useful one-number description of the typical, central, or most common observation in this dataset?</p>
-      </div>
+  <h2>1. What is a measure of centre?</h2>
+  <p>A measure of centre is a numerical or categorical summary that represents the typical location of a dataset. It helps reduce many observations into one interpretable value.</p>
 
-      <h2>2. The arithmetic mean</h2>
-      <p>The arithmetic mean, usually called the mean, is the sum of all observations divided by the number of observations. For a sample of size n with observations x₁, x₂, ..., xₙ, the sample mean is:</p>
-      <div class="math-block">x̄ = (x₁ + x₂ + ··· + xₙ) / n = (1/n)Σxᵢ</div>
-      <p>The mean is the balancing point of the data. If each observation were placed on a number line with equal weight, the mean would be the point at which the number line balances. This interpretation helps explain why the mean is affected by extreme values: a very large observation pulls the balance point toward itself.</p>
+  <div class="def-box"><div class="def-label">Definition — centre</div><p>A measure of centre describes where the observations in a dataset tend to cluster or balance.</p></div>
 
-      <div class="def-box green">
-        <div class="def-label">Worked example</div>
-        <p>For the dataset 4, 6, 7, 9, 9, the mean is x̄ = (4 + 6 + 7 + 9 + 9)/5 = 35/5 = 7.</p>
-      </div>
+  <p>Measures of centre are useful because they help answer questions such as:</p>
+  <ul>
+    <li>What is a typical value?</li>
+    <li>Where is the dataset located on the measurement scale?</li>
+    <li>How can we compare two groups quickly?</li>
+    <li>Which summary is most representative for this data shape?</li>
+  </ul>
 
-      <h3>Properties of the mean</h3>
-      <ul>
-        <li>The mean uses every observation in the dataset.</li>
-        <li>The mean is unique: a dataset has exactly one arithmetic mean.</li>
-        <li>The sum of deviations from the mean is always zero: Σ(xᵢ − x̄) = 0.</li>
-        <li>The mean is sensitive to outliers and skewness.</li>
-        <li>The mean is mathematically convenient and appears throughout inference, regression, and probability theory.</li>
-      </ul>
+  <h2>2. Arithmetic mean</h2>
+  <p>For observations \(x_1,x_2,\ldots,x_n\), the sample mean is:</p>
+  <div class="math-block">x̄ = (x₁ + x₂ + ⋯ + xₙ) / n</div>
+  <p>Using summation notation:</p>
+  <div class="math-block">x̄ = (1/n) Σxᵢ</div>
 
-      <h2>3. Derivation: why deviations from the mean sum to zero</h2>
-      <p>This property is not just a computational trick. It shows that the mean is the balancing point of the data.</p>
-      <div class="deriv-box">
-        <div class="deriv-header">
-          <span class="deriv-title">Proof: Σ(xᵢ − x̄) = 0</span>
-          <button class="reveal-btn" onclick="revealStep('deriv1')" id="reveal1-btn">Reveal next steps ↓</button>
-        </div>
-        <div id="deriv1-steps">
-          <div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-eq">Σ(xᵢ − x̄)</div><div class="step-note">Start with the sum of each observation's deviation from the mean.</div></div></div>
-        </div>
-        <div id="deriv1-hidden" style="display:none">
-          <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-eq">Σ(xᵢ − x̄) = Σxᵢ − Σx̄</div><div class="step-note">A sum of differences can be separated into the difference of sums.</div></div></div>
-          <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-eq">Σx̄ = nx̄</div><div class="step-note">The mean x̄ is constant, so adding it n times gives nx̄.</div></div></div>
-          <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-eq">x̄ = Σxᵢ / n  ⇒  nx̄ = Σxᵢ</div><div class="step-note">This follows directly from the definition of the mean.</div></div></div>
-          <div class="step-row"><div class="step-num">5</div><div class="step-content"><div class="step-eq">Σxᵢ − nx̄ = Σxᵢ − Σxᵢ = 0</div><div class="step-note">Therefore the positive and negative deviations around the mean balance exactly.</div></div></div>
-        </div>
-      </div>
+  <p>For a population of size \(N\), the population mean is:</p>
+  <div class="math-block">μ = (1/N) Σxᵢ</div>
 
-      <h2>4. The median</h2>
-      <p>The median is the middle value when observations are arranged in increasing order. It divides the ordered dataset into two halves: approximately 50% of observations lie below the median and approximately 50% lie above it.</p>
-      <div class="def-box">
-        <div class="def-label">Definition — median</div>
-        <p>The median is the central positional value in an ordered dataset. If n is odd, it is the middle observation. If n is even, it is usually the average of the two middle observations.</p>
-      </div>
+  <h3>Example</h3>
+  <p>For the values 4, 6, 8, 10, 12:</p>
+  <div class="math-block">x̄ = (4 + 6 + 8 + 10 + 12) / 5 = 40 / 5 = 8</div>
 
-      <h3>Median for odd n</h3>
-      <p>For the ordered data 3, 5, 6, 8, 11, there are five observations. The middle position is the third observation, so the median is 6.</p>
-      <div class="math-block">Median position = (n + 1) / 2 = (5 + 1) / 2 = 3rd value</div>
+  <div class="def-box green"><div class="def-label">Strength</div><p>The mean uses every numerical value and is mathematically central to later topics such as variance, standard deviation, regression and inference.</p></div>
+  <div class="def-box red"><div class="def-label">Limitation</div><p>The mean is sensitive to extreme values. One unusually large or small observation can pull it away from the typical majority.</p></div>
 
-      <h3>Median for even n</h3>
-      <p>For the ordered data 3, 5, 6, 8, 11, 13, there are six observations. The middle lies between the third and fourth values, so the median is:</p>
-      <div class="math-block">Median = (6 + 8) / 2 = 7</div>
+  <h2>3. The mean as a balance point</h2>
+  <p>The mean has an important balancing property. The deviations from the mean always sum to zero:</p>
+  <div class="math-block">Σ(xᵢ − x̄) = 0</div>
 
-      <h3>Why the median is robust</h3>
-      <p>The median depends on the order of observations, not the magnitude of the extreme observations. If the largest value in a dataset changes from 100 to 10,000, the median may remain unchanged. This makes the median a robust measure of centre for skewed distributions.</p>
+  <div class="deriv-box">
+    <div class="deriv-header"><span class="deriv-title">Proof: why deviations from the mean sum to zero</span><button class="reveal-btn" onclick="revealStep('deriv1')" id="reveal1-btn">Reveal steps ↓</button></div>
+    <div id="deriv1-steps"><div class="step-row"><div class="step-num">1</div><div class="step-content"><div class="step-eq">Σ(xᵢ − x̄)</div><div class="step-note">Start with the sum of deviations from the sample mean.</div></div></div></div>
+    <div id="deriv1-hidden" style="display:none">
+      <div class="step-row"><div class="step-num">2</div><div class="step-content"><div class="step-eq">Σ(xᵢ − x̄) = Σxᵢ − Σx̄</div><div class="step-note">Separate the summation.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-content"><div class="step-eq">Σx̄ = n x̄</div><div class="step-note">The mean is repeated n times.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-content"><div class="step-eq">x̄ = Σxᵢ / n, so n x̄ = Σxᵢ</div><div class="step-note">Use the definition of the mean.</div></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-content"><div class="step-eq">Σxᵢ − n x̄ = Σxᵢ − Σxᵢ = 0</div><div class="step-note">Positive and negative deviations balance exactly.</div></div></div>
+    </div>
+  </div>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Dataset</th><th>Mean</th><th>Median</th><th>Comment</th></tr></thead>
-          <tbody>
-            <tr><td>10, 11, 12, 13, 14</td><td>12</td><td>12</td><td>Symmetric; mean and median agree</td></tr>
-            <tr><td>10, 11, 12, 13, 64</td><td>22</td><td>12</td><td>Outlier pulls mean upward</td></tr>
-            <tr><td>10, 11, 12, 13, 500</td><td>109.2</td><td>12</td><td>Median remains stable</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <h2>4. Median</h2>
+  <p>The median is the middle value after arranging the observations in increasing order.</p>
+  <p>If \(n\) is odd, the median is the single middle value. If \(n\) is even, the median is the average of the two middle values.</p>
 
-      <h2>5. The mode</h2>
-      <p>The mode is the most frequently occurring value or category in a dataset. Unlike the mean and median, the mode can be used for nominal categorical variables.</p>
-      <div class="def-box purple">
-        <div class="def-label">Definition — mode</div>
-        <p>The mode is the value or category with the highest frequency. A dataset may have one mode, more than one mode, or no clear mode.</p>
-      </div>
-      <p>For example, in the dataset 2, 3, 3, 5, 6, 6, 6, 8, the mode is 6. In the categories “Never”, “Sometimes”, “Sometimes”, “Often”, “Often”, the dataset is bimodal because “Sometimes” and “Often” occur equally often.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Case</th><th>Dataset</th><th>Median</th></tr></thead><tbody>
+    <tr><td>Odd number of values</td><td>3, 5, 7, 9, 11</td><td>7</td></tr>
+    <tr><td>Even number of values</td><td>3, 5, 7, 9</td><td>(5 + 7) / 2 = 6</td></tr>
+  </tbody></table></div>
 
-      <h2>6. Comparing mean, median, and mode</h2>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Measure</th><th>Best for</th><th>Uses all values?</th><th>Affected by outliers?</th><th>Can use categorical data?</th></tr></thead>
-          <tbody>
-            <tr><td>Mean</td><td>Symmetric numerical data</td><td>Yes</td><td>Yes, strongly</td><td>No</td></tr>
-            <tr><td>Median</td><td>Skewed numerical or ordinal data</td><td>No, uses order</td><td>No, resistant</td><td>Ordinal only, not nominal</td></tr>
-            <tr><td>Mode</td><td>Categorical or repeated values</td><td>Frequency only</td><td>Usually no</td><td>Yes</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="def-box green"><div class="def-label">Strength</div><p>The median is resistant to extreme values and is often the preferred centre for skewed data such as income, waiting times and length of hospital stay.</p></div>
 
-      <h2>7. Shape of distribution and centre</h2>
-      <p>The relationship between mean and median gives useful information about the shape of a distribution.</p>
-      <ul>
-        <li><strong>Symmetric distribution:</strong> mean ≈ median.</li>
-        <li><strong>Right-skewed distribution:</strong> mean &gt; median because high values pull the mean upward.</li>
-        <li><strong>Left-skewed distribution:</strong> mean &lt; median because low values pull the mean downward.</li>
-      </ul>
-      <div class="def-box amber">
-        <div class="def-label">Descriptive writing rule</div>
-        <p>If the mean and median are far apart, do not simply report one number. Mention the likely skewness or the influence of extreme values.</p>
-      </div>
+  <h2>5. Mode</h2>
+  <p>The mode is the most frequently occurring value. For categorical data, the mode is often the only meaningful measure of centre.</p>
+  <p>A dataset may have no repeated value, one mode, two modes, or several modes.</p>
 
-      <h2>8. Weighted mean</h2>
-      <p>The weighted mean is used when observations, groups, or components do not contribute equally. It is calculated by multiplying each value by its weight, summing these products, and dividing by the total weight.</p>
-      <div class="math-block">Weighted mean = (Σwᵢxᵢ) / (Σwᵢ)</div>
-      <p>If weights are proportions that sum to 1, the denominator is 1 and the formula becomes:</p>
-      <div class="math-block">Weighted mean = Σwᵢxᵢ</div>
+  <div class="tbl-wrap"><table><thead><tr><th>Dataset</th><th>Description</th><th>Mode</th></tr></thead><tbody>
+    <tr><td>2, 3, 3, 5, 7</td><td>One value occurs most often</td><td>3</td></tr>
+    <tr><td>1, 1, 2, 3, 3</td><td>Two values tie</td><td>1 and 3</td></tr>
+    <tr><td>4, 5, 6, 7</td><td>No repeated value</td><td>No clear mode</td></tr>
+  </tbody></table></div>
 
-      <div class="def-box green">
-        <div class="def-label">Example — final mark</div>
-        <p>A student scores 72 on coursework worth 40% and 58 on an exam worth 60%. The weighted mean is 0.40×72 + 0.60×58 = 63.6.</p>
-      </div>
+  <h2>6. Effect of outliers</h2>
+  <p>Consider two datasets:</p>
+  <div class="math-block">A: 10, 12, 13, 14, 16</div>
+  <div class="math-block">B: 10, 12, 13, 14, 100</div>
+  <p>The first four values are similar, but dataset B contains a large outlier. The mean changes dramatically, while the median changes much less. This is why the median is called a resistant measure.</p>
 
-      <h2>9. Mean from a frequency table</h2>
-      <p>When data are summarised in a frequency table, the mean can be calculated by weighting each value by its frequency.</p>
-      <div class="math-block">x̄ = Σ(fx) / Σf</div>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Score x</th><th>Frequency f</th><th>fx</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>2</td><td>2</td></tr>
-            <tr><td>2</td><td>5</td><td>10</td></tr>
-            <tr><td>3</td><td>3</td><td>9</td></tr>
-            <tr><td><strong>Total</strong></td><td><strong>10</strong></td><td><strong>21</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Therefore, x̄ = 21/10 = 2.1. This is the same result we would obtain if we wrote the raw data as 1, 1, 2, 2, 2, 2, 2, 3, 3, 3.</p>
+  <h2>7. Choosing the correct measure of centre</h2>
+  <div class="tbl-wrap"><table><thead><tr><th>Data situation</th><th>Recommended centre</th><th>Reason</th></tr></thead><tbody>
+    <tr><td>Roughly symmetric numerical data</td><td>Mean</td><td>Uses all values and represents balance</td></tr>
+    <tr><td>Skewed numerical data</td><td>Median</td><td>Less affected by extreme values</td></tr>
+    <tr><td>Data with strong outliers</td><td>Median</td><td>More representative of the typical observation</td></tr>
+    <tr><td>Nominal categorical data</td><td>Mode</td><td>Mean and median are not meaningful</td></tr>
+    <tr><td>Ordinal categorical data</td><td>Median or mode</td><td>Ordering exists but distances may not be numerical</td></tr>
+  </tbody></table></div>
 
-      <h2>10. Approximate mean from grouped data</h2>
-      <p>Sometimes raw data are grouped into intervals, such as ages 10–19, 20–29, and 30–39. In that case, the exact values are no longer visible. We approximate the mean by using the midpoint of each class interval.</p>
-      <div class="math-block">Approximate grouped mean = Σ(fm) / Σf</div>
-      <p>Here, m is the class midpoint. This gives an approximation, not an exact mean, because we do not know where the observations lie within each interval.</p>
+  <h2>8. Reporting centre properly</h2>
+  <p>A good statistical summary should report a measure of centre with context and, usually, a measure of spread. For example:</p>
+  <div class="def-box purple"><div class="def-label">Good reporting examples</div><p>“The mean exam score was 68.4 marks.”<br><br>“Because waiting times were right-skewed, the median waiting time was reported instead of the mean.”<br><br>“The most common blood group in the sample was O positive.”</p></div>
 
-      <h2>11. Trimmed mean</h2>
-      <p>A trimmed mean is calculated after removing a fixed percentage of the smallest and largest values. It is a compromise between the mean and median: it uses many values, but reduces the influence of extremes.</p>
-      <p>For example, a 10% trimmed mean removes the lowest 10% and highest 10% of observations before calculating the mean. This is useful when data contain possible outliers but we do not want to rely only on the median.</p>
+  <h2>9. Common mistakes</h2>
+  <ul>
+    <li>Using the word “average” without saying whether it means mean, median or mode.</li>
+    <li>Using the mean for strongly skewed data without checking outliers.</li>
+    <li>Calculating a mean for nominal categories such as blood group or eye colour.</li>
+    <li>Forgetting to order the data before finding the median.</li>
+    <li>Assuming the mode must be unique.</li>
+    <li>Reporting a centre without considering spread.</li>
+  </ul>
+</section>
 
-      <h2>12. Reporting centre properly</h2>
-      <p>Good descriptive writing does not just list a number. It identifies the variable, sample, measure used, value, units, and any important distributional issue.</p>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Weak reporting</th><th>Stronger reporting</th></tr></thead>
-          <tbody>
-            <tr><td>The average was 42.</td><td>The mean age of the 80 participants was 42 years.</td></tr>
-            <tr><td>The median was 11.</td><td>The median hospital stay was 11 days, suggesting that half of patients stayed 11 days or less.</td></tr>
-            <tr><td>The average income was £31,000.</td><td>Because income was right-skewed, the median income (£31,000) was reported as the main measure of centre.</td></tr>
-          </tbody>
-        </table>
-      </div>
+<section id="sec-interactive" class="section">
+  <div class="lesson-eyebrow">Interactive elements</div>
+  <h1>Exploring measures of centre</h1>
 
-      <div class="takeaway">
-        <div class="tk-label">Notes summary</div>
-        <ul>
-          <li>The mean is the arithmetic balance point and is mathematically important.</li>
-          <li>The median is the positional centre and is robust for skewed distributions.</li>
-          <li>The mode is the most frequent value and is essential for categorical variables.</li>
-          <li>The weighted mean is necessary when observations or components have unequal importance.</li>
-          <li>Choice of centre must match the variable type and distribution shape.</li>
-        </ul>
-      </div>
-    </section>
+  <h2>1. Mean versus median under an outlier</h2>
+  <p>Move the outlier and observe how the mean and median respond differently.</p>
+  <div class="plot-box">
+    <div class="plot-title">Outlier effect on centre</div>
+    <div class="plot-sub">Base data: 10, 12, 13, 14. The fifth value is adjustable.</div>
+    <div class="controls-row"><div class="ctrl"><label>Fifth value</label><input type="range" id="outlier-val" min="15" max="100" value="40" oninput="updateOutlierDemo()"><span class="ctrl-val" id="outlier-label">40</span></div></div>
+    <div class="stat-row"><div class="stat-card"><div class="sc-label">Mean</div><div class="sc-val" id="demo-mean">—</div></div><div class="stat-card"><div class="sc-label">Median</div><div class="sc-val" id="demo-median">—</div></div><div class="stat-card"><div class="sc-label">Mode</div><div class="sc-val" id="demo-mode">—</div></div></div>
+    <div class="chart-wrap"><canvas id="centreChart" role="img" aria-label="Chart showing mean and median under an outlier"></canvas></div>
+  </div>
 
-    <section id="sec-interactive" class="section">
-      <div class="lesson-eyebrow">Interactive elements</div>
-      <h1>Exploring measures of centre</h1>
+  <h2>2. Balance point demo</h2>
+  <p>Change the spread of values and see how the mean acts as a balance point.</p>
+  <div class="plot-box">
+    <div class="plot-title">Mean as balance point</div>
+    <div class="plot-sub">The blue points are observations; the mean is shown as a central marker.</div>
+    <div class="controls-row"><div class="ctrl"><label>Shift</label><input type="range" id="shift-level" min="-20" max="20" value="0" oninput="updateBalanceDemo()"><span class="ctrl-val" id="shift-val">0</span></div></div>
+    <div class="chart-wrap"><canvas id="balanceChart" role="img" aria-label="Scatter plot showing the mean as a balance point"></canvas></div>
+  </div>
 
-      <h2>1. Outlier effect on mean and median</h2>
-      <p>Move the outlier slider. Notice how the mean moves much more than the median.</p>
-      <div class="plot-box">
-        <div class="plot-title">Mean vs median under an outlier</div>
-        <div class="plot-sub">Base data: 10, 12, 13, 15, 16, 18, 19 plus one changing value.</div>
-        <div class="controls-row">
-          <div class="ctrl"><label>Outlier value</label><input type="range" id="outlier" min="20" max="200" step="5" value="60" oninput="updateOutlier()"><span class="ctrl-val" id="outlier-val">60</span></div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="sc-label">Mean</div><div class="sc-val" id="mean-val">—</div></div>
-          <div class="stat-card"><div class="sc-label">Median</div><div class="sc-val" id="median-val">—</div></div>
-          <div class="stat-card"><div class="sc-label">Mode</div><div class="sc-val" id="mode-val">None</div></div>
-        </div>
-        <div class="mini-data" id="data-pills"></div>
-        <div class="chart-wrap"><canvas id="outlierChart"></canvas></div>
-      </div>
+  <h2>3. Choose the correct measure of centre</h2>
+  <p>Click the best measure for each situation.</p>
+  <div id="choice-area" class="choice-grid"></div>
+</section>
 
-      <h2>2. Weighted mean calculator</h2>
-      <p>Change the coursework and exam marks. The overall mark updates using a 40% coursework and 60% exam weighting.</p>
-      <div class="plot-box">
-        <div class="plot-title">Weighted final mark</div>
-        <div class="plot-sub">Final mark = 0.40 × coursework + 0.60 × exam.</div>
-        <div class="controls-row">
-          <div class="ctrl"><label>Coursework</label><input type="range" id="cw" min="0" max="100" step="1" value="72" oninput="updateWeighted()"><span class="ctrl-val" id="cw-val">72</span></div>
-          <div class="ctrl"><label>Exam</label><input type="range" id="exam" min="0" max="100" step="1" value="58" oninput="updateWeighted()"><span class="ctrl-val" id="exam-val">58</span></div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="sc-label">Simple mean</div><div class="sc-val" id="simple-mean">65.0</div></div>
-          <div class="stat-card"><div class="sc-label">Weighted mean</div><div class="sc-val" id="weighted-mean">63.6</div></div>
-        </div>
-        <div class="def-box amber"><div class="def-label">Think</div><p id="weighted-comment">The weighted mean is closer to the exam mark because the exam has the larger weight.</p></div>
-      </div>
+<section id="sec-exercises" class="section">
+  <div class="lesson-eyebrow">Practice exercises</div>
+  <h1>Measures of centre</h1>
+  <p>Attempt each question before revealing the answer.</p>
 
-      <h2>3. Choose the correct centre</h2>
-      <p>Click the best measure of centre for each situation.</p>
-      <div id="choice-area" style="display:flex;flex-direction:column;gap:10px;margin:16px 0;"></div>
-    </section>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 1</div><div class="ex-qtitle">Mean, median and mode</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">For the dataset 4, 5, 5, 7, 9, find the mean, median and mode.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Mean = (4 + 5 + 5 + 7 + 9) / 5 = 30 / 5 = 6. Median = 5. Mode = 5 because it occurs most often.</p></div></div></div>
 
-    <section id="sec-exercises" class="section">
-      <div class="lesson-eyebrow">Practice exercises</div>
-      <h1>Measures of centre</h1>
-      <p>Work through the questions before revealing the answers. The aim is not just calculation, but correct interpretation.</p>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 2</div><div class="ex-qtitle">Even number of observations</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">Find the median of 3, 8, 10, 15.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>There are four values, so the median is the average of the two middle values: (8 + 10) / 2 = 9.</p></div></div></div>
 
-      <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 1</div><div class="ex-qtitle">Mean, median and mode from raw data</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">For the dataset 6, 8, 8, 10, 13, 15, 15, 15, 20, find the mean, median and mode.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Sum = 110 and n = 9, so mean = 110/9 = 12.22. The median is the 5th ordered value, which is 13. The mode is 15 because it occurs most often. The mean is slightly below the median because the smaller values pull it down.</p></div></div></div>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 3</div><div class="ex-qtitle">Outlier effect</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">Compare the mean and median of 10, 12, 13, 14, 100. Which measure better represents the typical value?</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Mean = 149 / 5 = 29.8. Median = 13. The median better represents the typical value because 100 is an extreme value that pulls the mean upward.</p></div></div></div>
 
-      <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 2</div><div class="ex-qtitle">Effect of an outlier</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">A dataset of rents is: £650, £680, £700, £720, £750, £760, £2,200. Calculate the mean and median. Which better describes the typical rent?</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Mean = (650 + 680 + 700 + 720 + 750 + 760 + 2200)/7 = 6460/7 = £922.86. The median is the 4th value, £720. The median better describes the typical rent because the £2,200 value is an extreme high outlier that pulls the mean upward.</p></div></div></div>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 4</div><div class="ex-qtitle">Categorical data</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">For blood groups A, B, O, O, AB, O, A, which measure of centre is appropriate and what is its value?</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>The mode is appropriate because blood group is categorical. The mode is O because it appears most often.</p></div></div></div>
 
-      <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 3</div><div class="ex-qtitle">Weighted mean</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">A module mark is calculated from assignment 1 worth 20%, assignment 2 worth 30%, and an exam worth 50%. A student scores 75, 68 and 62 respectively. Find the final weighted mean.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Weighted mean = 0.20×75 + 0.30×68 + 0.50×62 = 15 + 20.4 + 31 = 66.4. The final mark is 66.4.</p></div></div></div>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 5</div><div class="ex-qtitle">Choosing a summary</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-hard">Hard</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">A dataset of monthly incomes is strongly right-skewed. Which centre should be reported and why?</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>The median should usually be reported because income data often contain a few very large values that pull the mean upward. The median is more resistant and better represents the typical income.</p></div></div></div>
+</section>
 
-      <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 4</div><div class="ex-qtitle">Mean from a frequency table</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">The number of absent days in a class is summarised below: 0 days: 6 students, 1 day: 9 students, 2 days: 4 students, 3 days: 1 student. Find the mean number of absent days.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Use x̄ = Σfx/Σf. Σfx = 0×6 + 1×9 + 2×4 + 3×1 = 0 + 9 + 8 + 3 = 20. Total frequency = 6 + 9 + 4 + 1 = 20. Mean = 20/20 = 1 absent day.</p></div></div></div>
+<section id="sec-quiz" class="section">
+  <div class="lesson-eyebrow">Topic quiz</div>
+  <h1>Measures of centre</h1>
+  <div id="quiz-container"></div>
+</section>
 
-      <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 5</div><div class="ex-qtitle">Proof and interpretation</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-hard">Hard</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">Show algebraically that Σ(xᵢ − x̄) = 0. Then explain why this does not mean that the mean is always the best descriptive centre.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Σ(xᵢ − x̄) = Σxᵢ − Σx̄ = Σxᵢ − nx̄. Since x̄ = Σxᵢ/n, we have nx̄ = Σxᵢ. Therefore Σxᵢ − nx̄ = Σxᵢ − Σxᵢ = 0. This shows that the mean is the balancing point. However, it may still be a poor description if the distribution is skewed or has outliers, because the balance point can be pulled away from most observations.</p></div></div></div>
-    </section>
-
-    <section id="sec-quiz" class="section">
-      <div class="lesson-eyebrow">Topic quiz</div>
-      <h1>Measures of centre</h1>
-      <div id="quiz-container"></div>
-    </section>
   </div>
 </div>
 
 <script>
-function showTab(name, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('sec-' + name).classList.add('active');
-  btn.classList.add('active');
-  if (name === 'interactive') initInteractive();
-  if (name === 'quiz') initQuiz();
-}
-let d1Revealed = false;
-function revealStep(id) {
-  if (!d1Revealed) {
-    document.getElementById(id + '-hidden').style.display = 'block';
-    document.getElementById('reveal1-btn').textContent = 'All steps shown ✓';
-    document.getElementById('reveal1-btn').disabled = true;
-    d1Revealed = true;
-  }
-}
-function toggleEx(header) { const body = header.nextElementSibling; const tog = header.querySelector('.ex-toggle'); const open = body.classList.toggle('open'); tog.textContent = open ? '−' : '+'; }
-function toggleAns(btn) { const box = btn.nextElementSibling; const open = box.classList.toggle('open'); btn.textContent = open ? 'Hide answer' : 'Show answer'; }
+function showTab(name, btn) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.getElementById('sec-' + name).classList.add('active'); btn.classList.add('active'); if (name === 'interactive') initInteractive(); if (name === 'quiz') initQuiz(); }
+let d1Revealed=false; function revealStep(id){ if(!d1Revealed){ document.getElementById(id+'-hidden').style.display='block'; document.getElementById('reveal1-btn').textContent='All steps shown ✓'; document.getElementById('reveal1-btn').disabled=true; d1Revealed=true; }}
+function toggleEx(header){ const body=header.nextElementSibling; const tog=header.querySelector('.ex-toggle'); const open=body.classList.toggle('open'); tog.textContent=open?'−':'+'; }
+function toggleAns(btn){ const box=btn.nextElementSibling; const open=box.classList.toggle('open'); btn.textContent=open?'Hide answer':'Show answer'; }
+function mean(a){return a.reduce((x,y)=>x+y,0)/a.length}
+function median(a){const b=[...a].sort((x,y)=>x-y), n=b.length, mid=Math.floor(n/2); return n%2?b[mid]:(b[mid-1]+b[mid])/2}
+function mode(a){const counts={}; a.forEach(x=>counts[x]=(counts[x]||0)+1); let best=a[0], max=0; for(const k in counts){ if(counts[k]>max){max=counts[k]; best=k;} } return max>1?best:'None';}
 
-let outlierChart = null; let interactiveInited = false;
-function mean(arr){return arr.reduce((a,b)=>a+b,0)/arr.length;}
-function median(arr){const s=[...arr].sort((a,b)=>a-b); const n=s.length; return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2;}
-function mode(arr){const m={}; arr.forEach(v=>m[v]=(m[v]||0)+1); let max=Math.max(...Object.values(m)); if(max===1) return 'None'; return Object.keys(m).filter(k=>m[k]===max).join(', ');}
-function updateOutlier(){
-  const out = parseInt(document.getElementById('outlier').value); document.getElementById('outlier-val').textContent = out;
-  const data = [10,12,13,15,16,18,19,out]; const m = mean(data), med = median(data), mo = mode(data);
-  document.getElementById('mean-val').textContent = m.toFixed(1); document.getElementById('median-val').textContent = med.toFixed(1); document.getElementById('mode-val').textContent = mo;
-  document.getElementById('data-pills').innerHTML = data.sort((a,b)=>a-b).map(x=>`<span class="pill">${x}</span>`).join('');
-  const labels = data.map((_,i)=>i+1);
-  if(outlierChart) outlierChart.destroy();
-  outlierChart = new Chart(document.getElementById('outlierChart'), { type:'bar', data:{ labels, datasets:[{ label:'Value', data:data, backgroundColor:'#378ADD55', borderColor:'#378ADD', borderWidth:1 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}}, scales:{ x:{ title:{display:true,text:'Ordered observation'}}, y:{ title:{display:true,text:'Value'}}}}});
-}
-function updateWeighted(){
-  const cw=parseInt(document.getElementById('cw').value), ex=parseInt(document.getElementById('exam').value);
-  document.getElementById('cw-val').textContent=cw; document.getElementById('exam-val').textContent=ex;
-  document.getElementById('simple-mean').textContent=((cw+ex)/2).toFixed(1);
-  document.getElementById('weighted-mean').textContent=(0.4*cw+0.6*ex).toFixed(1);
-  document.getElementById('weighted-comment').textContent = ex > cw ? 'The weighted mean is pulled toward the exam mark because the exam has the larger weight.' : cw > ex ? 'The weighted mean is still influenced more by the exam, so it is lower than the simple mean when the exam score is lower.' : 'When both marks are equal, the simple mean and weighted mean are the same.';
-}
-const centreChoices = [
-  { text:'Monthly income in a city where a few people earn extremely high salaries.', answer:'Median', explanation:'Income is usually right-skewed. The median better describes a typical person.' },
-  { text:'Most common blood group among 500 patients.', answer:'Mode', explanation:'Blood group is nominal categorical, so the mode is the appropriate centre.' },
-  { text:'Average exam score in a fairly symmetric distribution with no extreme values.', answer:'Mean', explanation:'For symmetric numerical data without strong outliers, the mean is suitable and efficient.' },
-  { text:'Satisfaction scale from 1 = very unhappy to 5 = very happy.', answer:'Median', explanation:'This is ordinal data. The median or mode is usually more appropriate than the mean.' }
-];
-function initInteractive(){ if(interactiveInited) return; interactiveInited=true; updateOutlier(); updateWeighted(); const area=document.getElementById('choice-area'); centreChoices.forEach((sc,i)=>{ const div=document.createElement('div'); div.style.cssText='border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;'; div.innerHTML=`<div style="padding:12px 16px;"><div style="font-size:13.5px;color:var(--text);line-height:1.6;margin-bottom:10px;">${sc.text}</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button onclick="chooseCentre(${i},'Mean',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Mean</button><button onclick="chooseCentre(${i},'Median',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Median</button><button onclick="chooseCentre(${i},'Mode',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Mode</button></div><div id="cc-${i}" style="display:none;margin-top:10px;padding:10px 12px;border-radius:var(--radius);font-size:13px;line-height:1.5;"></div></div>`; area.appendChild(div); }); }
-function chooseCentre(idx, choice, btn){ const sc=centreChoices[idx]; const fb=document.getElementById('cc-'+idx); const correct=choice===sc.answer; fb.style.display='block'; fb.style.background=correct?'var(--green-bg)':'var(--red-bg)'; fb.style.color=correct?'var(--green)':'var(--red)'; fb.style.border=correct?'0.5px solid var(--green)':'0.5px solid var(--red)'; fb.innerHTML=`<strong>${correct?'✓ Correct.':'✗ Not quite.'}</strong> ${sc.explanation}`; btn.parentElement.querySelectorAll('button').forEach(b=>b.disabled=true); }
+let centreChart=null,balanceChart=null,interactiveInited=false;
 
-const quizData = [
-  { q:'Which measure of centre is most sensitive to extreme values?', opts:['Mean','Median','Mode','Frequency'], correct:0, ok:'Correct. The mean uses every value, so extreme observations can pull it strongly.', no:'The mean is most sensitive because it depends on the actual magnitude of every observation.' },
-  { q:'For the ordered data 2, 5, 7, 9, 20, what is the median?', opts:['7','8','8.6','9'], correct:0, ok:'Correct. There are five observations, so the median is the 3rd value: 7.', no:'With five ordered observations, the median is the middle, or 3rd, value.' },
-  { q:'Which measure of centre is appropriate for nominal categorical data?', opts:['Mean','Median','Mode','Standard deviation'], correct:2, ok:'Correct. The mode identifies the most common category.', no:'For nominal categories, arithmetic and ordering do not apply. Use the mode.' },
-  { q:'A distribution is strongly right-skewed. Which centre is usually preferred for describing the typical value?', opts:['Mean','Median','Range','Variance'], correct:1, ok:'Correct. The median is robust to high outliers and skewness.', no:'Right-skewed data often have high outliers that pull the mean upward, so the median is usually preferred.' },
-  { q:'What is the weighted mean of 80 with weight 0.25 and 60 with weight 0.75?', opts:['70','65','60','75'], correct:1, ok:'Correct. 0.25×80 + 0.75×60 = 20 + 45 = 65.', no:'Multiply each value by its weight: 0.25×80 + 0.75×60 = 65.' }
+function updateOutlierDemo(){
+  const ov=parseInt(document.getElementById('outlier-val').value);
+  document.getElementById('outlier-label').textContent=ov;
+  const data=[10,12,13,14,ov];
+  const m=mean(data), med=median(data), mo=mode(data);
+  document.getElementById('demo-mean').textContent=m.toFixed(1);
+  document.getElementById('demo-median').textContent=med.toFixed(1);
+  document.getElementById('demo-mode').textContent=mo;
+  if(centreChart) centreChart.destroy();
+  centreChart=new Chart(document.getElementById('centreChart'),{type:'bar',data:{labels:['Value 1','Value 2','Value 3','Value 4','Fifth value','Mean','Median'],datasets:[{label:'Values and centre',data:[10,12,13,14,ov,m,med]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{font:{size:11}}},x:{ticks:{font:{size:11}}}}}});
+}
+
+function updateBalanceDemo(){
+  const shift=parseInt(document.getElementById('shift-level').value);
+  document.getElementById('shift-val').textContent=shift;
+  const data=[20+shift,30+shift,40+shift,50+shift,60+shift,70+shift];
+  const m=mean(data);
+  const points=data.map((y,i)=>({x:i+1,y}));
+  if(balanceChart) balanceChart.destroy();
+  balanceChart=new Chart(document.getElementById('balanceChart'),{type:'scatter',data:{datasets:[{label:'Observations',data:points,pointRadius:5},{label:'Mean',data:[{x:3.5,y:m}],pointRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{min:0,max:7,title:{display:true,text:'Observation position',font:{size:11}},ticks:{font:{size:11}}},y:{min:0,max:100,title:{display:true,text:'Value',font:{size:11}},ticks:{font:{size:11}}}}}});
+}
+
+const choices=[
+  {title:'Mean',sub:'Roughly symmetric exam scores without outliers.',ok:true,why:'Correct. The mean works well for roughly symmetric numerical data.'},
+  {title:'Median',sub:'Right-skewed income data with a few very high incomes.',ok:true,why:'Correct. The median resists extreme high values.'},
+  {title:'Mode',sub:'Most common blood group in a class.',ok:true,why:'Correct. The mode is appropriate for nominal categorical data.'},
+  {title:'Mean',sub:'Eye colour categories coded as 1, 2, 3.',ok:false,why:'Careful. Numerical codes for categories do not make the mean meaningful.'}
 ];
-let qIdx=0, chosen=null, isAnswered=false, score=0;
-function initQuiz(){ qIdx=0; chosen=null; isAnswered=false; score=0; renderQ(); }
-function renderQ(){ if(qIdx>=quizData.length){ document.getElementById('quiz-container').innerHTML=`<div class="quiz-complete"><div class="score-big">${score}/${quizData.length}</div><p style="margin-top:8px">${score===quizData.length?'Perfect — excellent descriptive statistics understanding.':score>=3?'Good work. Review the missed questions.':'Revisit the notes and try again.'}</p><button class="btn-check" style="margin-top:20px" onclick="initQuiz()">Retry quiz</button></div>`; return;} const q=quizData[qIdx]; document.getElementById('quiz-container').innerHTML=`<div class="quiz-progress">Question ${qIdx+1} of ${quizData.length}</div><div class="quiz-q">${q.q}</div><div class="quiz-opts" id="qopts">${q.opts.map((o,i)=>`<div class="quiz-opt" id="qo${i}" onclick="selectOpt(${i})"><div class="opt-key">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}</div><div class="feedback" id="qfb"></div><div class="quiz-actions"><button class="btn-check" id="qbtn-check" onclick="checkQ()" disabled>Check answer</button><button class="btn-next" id="qbtn-next" onclick="nextQ()">${qIdx<quizData.length-1?'Next question →':'See result'}</button></div>`; chosen=null; isAnswered=false; }
+
+function initInteractive(){
+  if(interactiveInited) return; interactiveInited=true;
+  updateOutlierDemo(); updateBalanceDemo();
+  const area=document.getElementById('choice-area');
+  choices.forEach((c,i)=>{ const div=document.createElement('div'); div.className='choice-card'; div.onclick=()=>chooseCard(div,c); div.innerHTML=`<div class="choice-title">${c.title}</div><div class="choice-sub">${c.sub}</div><div id="ch-${i}" style="display:none;margin-top:10px;font-size:12.5px;line-height:1.5;"></div>`; area.appendChild(div); });
+}
+function chooseCard(div,c){ const fb=div.querySelector('[id^="ch-"]'); fb.style.display='block'; fb.style.color=c.ok?'var(--green)':'var(--red)'; fb.innerHTML=`<strong>${c.ok?'Good choice.':'Careful.'}</strong> ${c.why}`; }
+
+const quizData=[
+  {q:'Which measure of centre is the arithmetic average?',opts:['Mean','Median','Mode','Range'],correct:0,ok:'Correct. The mean is the arithmetic average.',no:'The arithmetic average is the mean.'},
+  {q:'Which measure is most resistant to outliers?',opts:['Mean','Median','Variance','Range'],correct:1,ok:'Correct. The median depends on position, not extreme magnitude.',no:'The median is usually most resistant to outliers among these options.'},
+  {q:'Which measure is most appropriate for nominal categorical data?',opts:['Mean','Median','Mode','Standard deviation'],correct:2,ok:'Correct. The mode identifies the most frequent category.',no:'For nominal categories, the mode is usually the meaningful centre.'},
+  {q:'Before finding the median, data should be:',opts:['Squared','Ordered','Deleted','Converted to percentages'],correct:1,ok:'Correct. Median is based on ordered position.',no:'The median requires ordering the data from smallest to largest.'},
+  {q:'Why can the mean be misleading for skewed data?',opts:['It ignores every value','It is pulled by extreme values','It cannot be calculated','It is always categorical'],correct:1,ok:'Correct. Extreme values pull the mean toward the tail.',no:'The mean is sensitive to extreme values, especially in skewed data.'}
+];
+let qIdx=0,chosen=null,isAnswered=false,score=0;
+function initQuiz(){qIdx=0;chosen=null;isAnswered=false;score=0;renderQ()}
+function renderQ(){
+ if(qIdx>=quizData.length){document.getElementById('quiz-container').innerHTML=`<div class="quiz-complete"><div class="score-big">${score}/${quizData.length}</div><p style="margin-top:8px">${score===quizData.length?'Excellent — strong understanding of centre.':score>=3?'Good work. Review the missed explanations.':'Review the notes, especially mean, median and mode.'}</p><button class="btn-check" style="margin-top:20px" onclick="initQuiz()">Retry quiz</button></div>`;return;}
+ const q=quizData[qIdx];
+ document.getElementById('quiz-container').innerHTML=`<div class="quiz-progress">Question ${qIdx+1} of ${quizData.length}</div><div class="quiz-q">${q.q}</div><div class="quiz-opts" id="qopts">${q.opts.map((o,i)=>`<div class="quiz-opt" id="qo${i}" onclick="selectOpt(${i})"><div class="opt-key">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}</div><div class="feedback" id="qfb"></div><div class="quiz-actions"><button class="btn-check" id="qbtn-check" onclick="checkQ()" disabled>Check answer</button><button class="btn-next" id="qbtn-next" onclick="nextQ()">${qIdx<quizData.length-1?'Next question →':'See result'}</button></div>`;
+ chosen=null; isAnswered=false;
+}
 function selectOpt(i){ if(isAnswered) return; document.querySelectorAll('.quiz-opt').forEach(el=>el.classList.remove('selected')); document.getElementById('qo'+i).classList.add('selected'); chosen=i; document.getElementById('qbtn-check').disabled=false; }
-function checkQ(){ if(chosen===null||isAnswered) return; isAnswered=true; const q=quizData[qIdx]; const fb=document.getElementById('qfb'); document.querySelectorAll('.quiz-opt').forEach((el,i)=>{el.classList.add('locked'); if(i===q.correct) el.classList.add('correct'); if(i===chosen&&i!==q.correct) el.classList.add('wrong');}); const correct=chosen===q.correct; if(correct) score++; fb.className='feedback show '+(correct?'ok':'no'); fb.innerHTML=`<strong>${correct?'Correct.':'Not quite.'}</strong> ${correct?q.ok:q.no}`; document.getElementById('qbtn-check').disabled=true; document.getElementById('qbtn-next').classList.add('show'); }
-function nextQ(){ qIdx++; renderQ(); }
+function checkQ(){ if(chosen===null||isAnswered) return; isAnswered=true; const q=quizData[qIdx]; const fb=document.getElementById('qfb'); document.querySelectorAll('.quiz-opt').forEach((el,i)=>{el.classList.add('locked'); if(i===q.correct) el.classList.add('correct'); if(i===chosen&&i!==q.correct) el.classList.add('wrong');}); const ok=chosen===q.correct; if(ok)score++; fb.className='feedback show '+(ok?'ok':'no'); fb.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong> ${ok?q.ok:q.no}`; document.getElementById('qbtn-check').disabled=true; document.getElementById('qbtn-next').classList.add('show'); }
+function nextQ(){qIdx++;renderQ()}
 </script>
+
 <!-- My Academic Tutor platform footer with logo -->
 <footer class="mat-platform-footer">
   <div class="mat-footer-brand">

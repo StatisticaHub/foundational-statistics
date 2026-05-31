@@ -3,237 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1.2 Populations, Samples & Variables — Foundational Statistics</title>
+<title>1.2 Populations, Samples and Variables — Foundational Statistics</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
 <style>
-  /* ── Reset & base ── */
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg:       #ffffff;
-    --bg2:      #f6f5f0;
-    --bg3:      #f0ede6;
-    --border:   #e0ddd6;
-    --text:     #1a1a18;
-    --text2:    #5a5a56;
-    --text3:    #8a8a84;
-    --blue:     #378ADD;
-    --blue-bg:  #E6F1FB;
-    --blue-txt: #0C447C;
-    --green:    #3B6D11;
-    --green-bg: #EAF3DE;
-    --amber:    #BA7517;
-    --amber-bg: #FAEEDA;
-    --amber-txt:#633806;
-    --red:      #A32D2D;
-    --red-bg:   #FCEBEB;
-    --purple:   #534AB7;
-    --purple-bg:#EEEDFE;
-    --purple-txt:#3C3489;
-    --radius:   8px;
-    --radius-lg:12px;
-    --mono:     'Courier New', monospace;
-    --sans:     system-ui, -apple-system, sans-serif;
+  :root { --bg:#ffffff; --bg2:#f6f5f0; --bg3:#f0ede6; --border:#e0ddd6; --text:#1a1a18; --text2:#5a5a56; --text3:#8a8a84; --blue:#378ADD; --blue-bg:#E6F1FB; --blue-txt:#0C447C; --green:#3B6D11; --green-bg:#EAF3DE; --amber:#BA7517; --amber-bg:#FAEEDA; --amber-txt:#633806; --red:#A32D2D; --red-bg:#FCEBEB; --purple:#534AB7; --purple-bg:#EEEDFE; --purple-txt:#3C3489; --radius:8px; --radius-lg:12px; --mono:'Courier New', monospace; --sans:system-ui,-apple-system,sans-serif; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1c1c1a; --bg2:#252523; --bg3:#2e2e2b; --border:#3a3a36; --text:#e8e6df; --text2:#a8a69f; --text3:#6a6a64; --blue-bg:#0c1f35; --blue-txt:#85B7EB; --green-bg:#0f2005; --amber-bg:#2a1800; --amber-txt:#FAC775; --red-bg:#2a0a0a; --purple-bg:#1a1740; --purple-txt:#AFA9EC; } }
+  html { font-family:var(--sans); font-size:16px; color:var(--text); background:var(--bg3); scroll-behavior:smooth; }
+  body { display:flex; min-height:100vh; }
+  .sidebar { width:260px; min-width:260px; background:var(--bg); border-right:0.5px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; }
+  .sidebar-brand { padding:16px; border-bottom:0.5px solid var(--border); }
+  .brand-course { font-size:11px; font-weight:500; color:var(--blue); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:4px; }
+  .brand-title { font-size:13px; font-weight:500; color:var(--text); line-height:1.4; }
+  .progress-wrap { height:3px; background:var(--border); }
+  .progress-bar { height:3px; background:var(--blue); width:28%; }
+  .nav-section { font-size:10px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; padding:12px 16px 4px; }
+  .nav-item { display:flex; align-items:center; gap:8px; padding:7px 16px; font-size:12.5px; color:var(--text2); cursor:pointer; border-left:2px solid transparent; text-decoration:none; transition:background 0.12s; }
+  .nav-item:hover { background:var(--bg2); color:var(--text); }
+  .nav-item.active { color:var(--text); border-left-color:var(--blue); background:var(--bg2); font-weight:500; }
+  .nav-item.done .nav-dot { background:var(--green); }
+  .nav-dot { width:6px; height:6px; border-radius:50%; background:var(--border); flex-shrink:0; }
+  .nav-item.active .nav-dot { background:var(--blue); }
+  .main { flex:1; min-width:0; }
+  .tab-bar { background:var(--bg); border-bottom:0.5px solid var(--border); display:flex; padding:0 32px; position:sticky; top:0; z-index:10; overflow-x:auto; }
+  .tab { padding:12px 16px; font-size:13px; color:var(--text2); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-0.5px; background:none; border-top:none; border-left:none; border-right:none; font-family:var(--sans); transition:color 0.12s; white-space:nowrap; }
+  .tab:hover { color:var(--text); }
+  .tab.active { color:var(--text); border-bottom-color:var(--blue); font-weight:500; }
+  .content { max-width:820px; margin:0 auto; padding:32px; }
+  .section { display:none; }
+  .section.active { display:block; }
+  .lesson-eyebrow { font-size:11px; font-weight:500; color:var(--blue); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:6px; }
+  h1 { font-size:26px; font-weight:500; color:var(--text); margin-bottom:6px; line-height:1.3; }
+  .lesson-meta { font-size:12px; color:var(--text3); margin-bottom:28px; }
+  h2 { font-size:18px; font-weight:500; color:var(--text); margin:30px 0 10px; }
+  h3 { font-size:15px; font-weight:500; color:var(--text); margin:20px 0 8px; }
+  p { font-size:14.5px; color:var(--text2); line-height:1.75; margin-bottom:14px; }
+  strong { color:var(--text); font-weight:500; }
+  ul, ol { padding-left:20px; margin-bottom:14px; }
+  li { font-size:14.5px; color:var(--text2); line-height:1.75; margin-bottom:4px; }
+  .def-box { border-left:3px solid var(--blue); background:var(--blue-bg); border-radius:0 var(--radius) var(--radius) 0; padding:12px 16px; margin:16px 0; }
+  .def-box .def-label { font-size:11px; font-weight:500; color:var(--blue-txt); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
+  .def-box.green { border-left-color:var(--green); background:var(--green-bg); }
+  .def-box.green .def-label { color:var(--green); }
+  .def-box.amber { border-left-color:var(--amber); background:var(--amber-bg); }
+  .def-box.amber .def-label { color:var(--amber-txt); }
+  .def-box.red { border-left-color:var(--red); background:var(--red-bg); }
+  .def-box.red .def-label { color:var(--red); }
+  .def-box.purple { border-left-color:var(--purple); background:var(--purple-bg); }
+  .def-box.purple .def-label { color:var(--purple-txt); }
+  .def-box p { font-size:13.5px; color:var(--text); margin:0; line-height:1.6; }
+  .math-block { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius); padding:14px 20px; margin:16px 0; text-align:center; font-family:var(--mono); font-size:15px; color:var(--text); overflow-x:auto; }
+  .scene-label { font-size:11px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; margin:24px 0 12px; padding:6px 10px; background:var(--bg2); border-radius:var(--radius); display:inline-block; }
+  .dialogue { display:flex; flex-direction:column; gap:12px; margin:16px 0; }
+  .line { display:flex; gap:12px; align-items:flex-start; }
+  .line.right { flex-direction:row-reverse; }
+  .speaker-badge { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; flex-shrink:0; margin-top:2px; }
+  .sp-prof{background:var(--blue-bg);color:var(--blue-txt)} .sp-emma{background:var(--green-bg);color:var(--green)} .sp-oliver{background:var(--amber-bg);color:var(--amber-txt)} .sp-james{background:var(--purple-bg);color:var(--purple-txt)} .sp-sophia{background:var(--red-bg);color:var(--red)}
+  .bubble { max-width:76%; background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:10px 14px; }
+  .line.right .bubble { background:var(--blue-bg); border-color:transparent; }
+  .speaker-name { font-size:11px; font-weight:500; color:var(--text3); margin-bottom:3px; }
+  .bubble p { font-size:14px; color:var(--text); margin:0; line-height:1.6; }
+  .takeaway { background:var(--bg2); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:16px 20px; margin:24px 0; }
+  .takeaway .tk-label { font-size:11px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px; }
+  .takeaway ul { margin:0; }
+  .takeaway li { font-size:14px; color:var(--text); }
+  .tbl-wrap { overflow-x:auto; margin:16px 0; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  thead tr { background:var(--bg2); }
+  th { padding:9px 12px; text-align:left; font-weight:500; font-size:12px; color:var(--text); border-bottom:0.5px solid var(--border); text-transform:uppercase; letter-spacing:0.05em; }
+  td { padding:9px 12px; color:var(--text2); border-bottom:0.5px solid var(--border); line-height:1.5; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--bg2); }
+  .deriv-box { border:0.5px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; margin:20px 0; }
+  .deriv-header { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:var(--bg2); border-bottom:0.5px solid var(--border); gap:12px; }
+  .deriv-title { font-size:13px; font-weight:500; color:var(--text); }
+  .reveal-btn { background:none; border:0.5px solid var(--border); border-radius:var(--radius); padding:5px 12px; font-size:12px; cursor:pointer; color:var(--text2); font-family:var(--sans); }
+  .reveal-btn:hover { background:var(--bg3); }
+  .step-row { display:flex; gap:14px; padding:12px 16px; border-bottom:0.5px solid var(--border); animation:fadeIn 0.25s ease; }
+  .step-row:last-child { border-bottom:none; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+  .step-num { width:24px; height:24px; border-radius:50%; background:var(--blue-bg); color:var(--blue-txt); font-size:11px; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+  .step-content .step-eq { font-family:var(--mono); font-size:14px; color:var(--text); margin-bottom:4px; }
+  .step-content .step-note { font-size:12.5px; color:var(--text3); line-height:1.5; }
+  .controls-row { display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px; align-items:center; }
+  .ctrl { display:flex; align-items:center; gap:8px; }
+  .ctrl label { font-size:12.5px; color:var(--text2); white-space:nowrap; }
+  .ctrl input[type=range] { width:130px; accent-color:var(--blue); }
+  .ctrl-val { font-size:12.5px; font-weight:500; color:var(--text); min-width:35px; }
+  .stat-row { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+  .stat-card { flex:1; min-width:110px; background:var(--bg2); border-radius:var(--radius); padding:10px 14px; text-align:center; }
+  .stat-card .sc-label { font-size:11px; color:var(--text3); margin-bottom:4px; }
+  .stat-card .sc-val { font-size:20px; font-weight:500; color:var(--text); }
+  .chart-wrap { position:relative; width:100%; height:250px; }
+  .plot-box { border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:16px; margin:16px 0; }
+  .plot-title { font-size:13px; font-weight:500; color:var(--text); margin-bottom:4px; }
+  .plot-sub { font-size:12px; color:var(--text3); margin-bottom:14px; }
+  .choice-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin:16px 0; }
+  .choice-card { border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:12px 14px; cursor:pointer; background:var(--bg); }
+  .choice-card:hover { background:var(--bg2); }
+  .choice-card .choice-title { font-size:13.5px; font-weight:500; color:var(--text); margin-bottom:4px; }
+  .choice-card .choice-sub { font-size:12.5px; color:var(--text3); line-height:1.5; }
+  .exercise { border:0.5px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; margin:16px 0; }
+  .ex-header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; cursor:pointer; }
+  .ex-header:hover { background:var(--bg2); }
+  .ex-qnum { font-size:11px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:0.06em; }
+  .ex-qtitle { font-size:14px; font-weight:500; color:var(--text); margin-top:2px; }
+  .ex-difficulty { font-size:11px; padding:2px 8px; border-radius:10px; }
+  .diff-easy{background:var(--green-bg);color:var(--green)} .diff-medium{background:var(--amber-bg);color:var(--amber-txt)} .diff-hard{background:var(--red-bg);color:var(--red)}
+  .ex-toggle { font-size:18px; color:var(--text3); transition:transform 0.2s; }
+  .ex-body { display:none; padding:0 16px 16px; border-top:0.5px solid var(--border); }
+  .ex-body.open { display:block; }
+  .ex-question { font-size:14px; color:var(--text2); line-height:1.7; margin:12px 0; }
+  .answer-toggle { background:none; border:0.5px solid var(--border); border-radius:var(--radius); padding:7px 14px; font-size:12.5px; cursor:pointer; color:var(--text2); font-family:var(--sans); margin-top:10px; }
+  .answer-toggle:hover { background:var(--bg2); }
+  .answer-box { display:none; margin-top:12px; background:var(--green-bg); border:0.5px solid var(--green); border-radius:var(--radius); padding:12px 16px; }
+  .answer-box.open { display:block; animation:fadeIn 0.2s ease; }
+  .answer-box .ans-label { font-size:11px; font-weight:500; color:var(--green); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+  .answer-box p, .answer-box li { font-size:13.5px; color:var(--text); line-height:1.65; }
+  .quiz-q { font-size:14.5px; font-weight:500; color:var(--text); margin-bottom:14px; line-height:1.55; }
+  .quiz-opts { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+  .quiz-opt { display:flex; align-items:center; gap:10px; padding:11px 14px; border:0.5px solid var(--border); border-radius:var(--radius); cursor:pointer; font-size:13.5px; color:var(--text2); transition:all 0.12s; }
+  .quiz-opt:hover:not(.locked) { border-color:var(--blue); background:var(--blue-bg); color:var(--text); }
+  .quiz-opt.selected { border-color:var(--blue); background:var(--blue-bg); color:var(--text); }
+  .quiz-opt.correct { border-color:var(--green); background:var(--green-bg); color:var(--green); }
+  .quiz-opt.wrong { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+  .quiz-opt .opt-key { width:22px; height:22px; border-radius:50%; border:0.5px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; flex-shrink:0; }
+  .feedback { padding:10px 14px; border-radius:var(--radius); font-size:13.5px; line-height:1.6; margin-bottom:14px; display:none; }
+  .feedback.show { display:block; }
+  .feedback.ok { background:var(--green-bg); color:var(--green); border:0.5px solid var(--green); }
+  .feedback.no { background:var(--red-bg); color:var(--red); border:0.5px solid var(--red); }
+  .quiz-actions { display:flex; gap:10px; }
+  .btn-check { padding:8px 18px; background:var(--blue); color:#fff; border:none; border-radius:var(--radius); font-size:13px; cursor:pointer; font-family:var(--sans); }
+  .btn-check:disabled { opacity:0.4; cursor:default; }
+  .btn-next { padding:8px 18px; border:0.5px solid var(--border); border-radius:var(--radius); font-size:13px; cursor:pointer; background:none; color:var(--text2); font-family:var(--sans); display:none; }
+  .btn-next.show { display:inline-block; }
+  .quiz-progress { font-size:11.5px; color:var(--text3); margin-bottom:20px; }
+  .quiz-complete { text-align:center; padding:32px 0; }
+  .quiz-complete .score-big { font-size:48px; font-weight:500; color:var(--text); }
+  @media (max-width:760px) { body { display:block; } .sidebar { position:relative; width:100%; height:auto; min-width:0; } .content { padding:24px 18px; } .bubble { max-width:84%; } }
+
+
+  @media (max-width:850px) {
+    html, body { width:100%; max-width:100%; overflow-x:hidden; }
+    body { display:block; min-height:auto; }
+    .sidebar { position:relative; width:100%; min-width:0; max-width:100%; height:auto; max-height:none; border-right:none; border-bottom:0.5px solid var(--border); overflow:visible; }
+    .main { display:block; width:100%; max-width:100%; min-width:0; overflow:visible; }
+    .tab-bar { position:sticky; top:0; z-index:20; padding:0 12px; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .tab { flex:0 0 auto; padding:13px 16px; font-size:15px; }
+    .content { width:100%; max-width:100%; margin:0; padding:26px 18px 38px; overflow-x:hidden; }
+    h1 { font-size:32px; line-height:1.15; word-break:normal; overflow-wrap:normal; }
+    h2 { font-size:22px; }
+    p, li { font-size:16px; }
+    .lesson-meta { font-size:14px; line-height:1.55; }
+    .scene-label { max-width:100%; white-space:normal; line-height:1.5; }
+    .bubble { max-width:calc(100% - 48px); min-width:0; padding:14px 16px; }
+    .bubble p { font-size:16px; line-height:1.65; overflow-wrap:break-word; }
+    .speaker-badge { width:38px; height:38px; min-width:38px; }
+    .math-block { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:14px 12px; }
+    .plot-box,.exercise,.takeaway,.def-box { width:100%; max-width:100%; }
+    .chart-wrap { height:280px; }
+    .tbl-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { min-width:560px; }
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg:       #1c1c1a;
-      --bg2:      #252523;
-      --bg3:      #2e2e2b;
-      --border:   #3a3a36;
-      --text:     #e8e6df;
-      --text2:    #a8a69f;
-      --text3:    #6a6a64;
-      --blue-bg:  #0c1f35;
-      --blue-txt: #85B7EB;
-      --green-bg: #0f2005;
-      --amber-bg: #2a1800;
-      --amber-txt:#FAC775;
-      --red-bg:   #2a0a0a;
-      --purple-bg:#1a1740;
-      --purple-txt:#AFA9EC;
-    }
-  }
-  html { font-family: var(--sans); font-size: 16px; color: var(--text); background: var(--bg3); scroll-behavior: smooth; }
-  body { display: flex; min-height: 100vh; }
 
-  /* ── Sidebar ── */
-  .sidebar {
-    width: 260px; min-width: 260px; background: var(--bg);
-    border-right: 0.5px solid var(--border);
-    display: flex; flex-direction: column;
-    position: sticky; top: 0; height: 100vh; overflow-y: auto;
-  }
-  .sidebar-brand { padding: 16px; border-bottom: 0.5px solid var(--border); }
-  .brand-course { font-size: 11px; font-weight: 500; color: var(--blue); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
-  .brand-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
-  .progress-wrap { height: 3px; background: var(--border); }
-  .progress-bar { height: 3px; background: var(--blue); width: 4%; }
-  .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; padding: 12px 16px 4px; }
-  .nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 16px; font-size: 12.5px; color: var(--text2); cursor: pointer; border-left: 2px solid transparent; text-decoration: none; transition: background 0.12s; }
-  .nav-item:hover { background: var(--bg2); color: var(--text); }
-  .nav-item.active { color: var(--text); border-left-color: var(--blue); background: var(--bg2); font-weight: 500; }
-  .nav-item.done .nav-dot { background: var(--green); }
-  .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-  .nav-item.active .nav-dot { background: var(--blue); }
-
-  /* ── Main ── */
-  .main { flex: 1; min-width: 0; }
-  .tab-bar { background: var(--bg); border-bottom: 0.5px solid var(--border); display: flex; padding: 0 32px; position: sticky; top: 0; z-index: 10; }
-  .tab { padding: 12px 16px; font-size: 13px; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -0.5px; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--sans); transition: color 0.12s; white-space: nowrap; }
-  .tab:hover { color: var(--text); }
-  .tab.active { color: var(--text); border-bottom-color: var(--blue); font-weight: 500; }
-  .content { max-width: 780px; margin: 0 auto; padding: 32px; }
-  .section { display: none; }
-  .section.active { display: block; }
-
-  /* ── Typography ── */
-  .lesson-eyebrow { font-size: 11px; font-weight: 500; color: var(--blue); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
-  h1 { font-size: 26px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
-  .lesson-meta { font-size: 12px; color: var(--text3); margin-bottom: 28px; }
-  h2 { font-size: 18px; font-weight: 500; color: var(--text); margin: 28px 0 10px; }
-  h3 { font-size: 15px; font-weight: 500; color: var(--text); margin: 20px 0 8px; }
-  p { font-size: 14.5px; color: var(--text2); line-height: 1.75; margin-bottom: 14px; }
-  strong { color: var(--text); font-weight: 500; }
-  ul, ol { padding-left: 20px; margin-bottom: 14px; }
-  li { font-size: 14.5px; color: var(--text2); line-height: 1.75; margin-bottom: 4px; }
-
-  /* ── Callout boxes ── */
-  .def-box { border-left: 3px solid var(--blue); background: var(--blue-bg); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin: 16px 0; }
-  .def-box .def-label { font-size: 11px; font-weight: 500; color: var(--blue-txt); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-  .def-box.green { border-left-color: var(--green); background: var(--green-bg); }
-  .def-box.green .def-label { color: var(--green); }
-  .def-box.amber { border-left-color: var(--amber); background: var(--amber-bg); }
-  .def-box.amber .def-label { color: var(--amber-txt); }
-  .def-box.red { border-left-color: var(--red); background: var(--red-bg); }
-  .def-box.red .def-label { color: var(--red); }
-  .def-box p { font-size: 13.5px; color: var(--text); margin: 0; line-height: 1.6; }
-
-  /* ── Math block ── */
-  .math-block { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 20px; margin: 16px 0; text-align: center; font-family: var(--mono); font-size: 15px; color: var(--text); overflow-x: auto; }
-
-  /* ── Lecture dialogue ── */
-  .scene-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 24px 0 12px; padding: 6px 10px; background: var(--bg2); border-radius: var(--radius); display: inline-block; }
-  .dialogue { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
-  .line { display: flex; gap: 12px; align-items: flex-start; }
-  .line.right { flex-direction: row-reverse; }
-  .speaker-badge { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 2px; }
-  .sp-prof  { background: var(--blue-bg);   color: var(--blue-txt); }
-  .sp-emma  { background: var(--green-bg);  color: var(--green); }
-  .sp-oliver{ background: var(--amber-bg);  color: var(--amber-txt); }
-  .sp-james { background: var(--purple-bg); color: var(--purple-txt); }
-  .sp-sophia{ background: var(--red-bg);    color: var(--red); }
-  .bubble { max-width: 76%; background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 10px 14px; }
-  .line.right .bubble { background: var(--blue-bg); border-color: transparent; }
-  .speaker-name { font-size: 11px; font-weight: 500; color: var(--text3); margin-bottom: 3px; }
-  .bubble p { font-size: 14px; color: var(--text); margin: 0; line-height: 1.6; }
-
-  /* ── Key takeaway / summary ── */
-  .takeaway { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px 20px; margin: 24px 0; }
-  .takeaway .tk-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
-  .takeaway ul { margin: 0; }
-  .takeaway li { font-size: 14px; color: var(--text); }
-
-  /* ── Table ── */
-  .tbl-wrap { overflow-x: auto; margin: 16px 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-  thead tr { background: var(--bg2); }
-  th { padding: 9px 12px; text-align: left; font-weight: 500; font-size: 12px; color: var(--text); border-bottom: 0.5px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; }
-  td { padding: 9px 12px; color: var(--text2); border-bottom: 0.5px solid var(--border); line-height: 1.5; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--bg2); }
-
-  /* ── Notes derivation stepper ── */
-  .deriv-box { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 20px 0; }
-  .deriv-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: var(--bg2); border-bottom: 0.5px solid var(--border); }
-  .deriv-title { font-size: 13px; font-weight: 500; color: var(--text); }
-  .reveal-btn { background: none; border: 0.5px solid var(--border); border-radius: var(--radius); padding: 5px 12px; font-size: 12px; cursor: pointer; color: var(--text2); font-family: var(--sans); }
-  .reveal-btn:hover { background: var(--bg3); }
-  .step-row { display: flex; gap: 14px; padding: 12px 16px; border-bottom: 0.5px solid var(--border); animation: fadeIn 0.25s ease; }
-  .step-row:last-child { border-bottom: none; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-  .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--blue-bg); color: var(--blue-txt); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .step-content .step-eq { font-family: var(--mono); font-size: 14px; color: var(--text); margin-bottom: 4px; }
-  .step-content .step-note { font-size: 12.5px; color: var(--text3); line-height: 1.5; }
-
-  /* ── Interactive section ── */
-  .controls-row { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; align-items: center; }
-  .ctrl { display: flex; align-items: center; gap: 8px; }
-  .ctrl label { font-size: 12.5px; color: var(--text2); white-space: nowrap; }
-  .ctrl input[type=range] { width: 120px; accent-color: var(--blue); }
-  .ctrl-val { font-size: 12.5px; font-weight: 500; color: var(--text); min-width: 30px; }
-  .stat-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .stat-card { flex: 1; min-width: 100px; background: var(--bg2); border-radius: var(--radius); padding: 10px 14px; text-align: center; }
-  .stat-card .sc-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
-  .stat-card .sc-val { font-size: 20px; font-weight: 500; color: var(--text); }
-  .chart-wrap { position: relative; width: 100%; height: 240px; }
-  .plot-box { border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 16px; margin: 16px 0; }
-  .plot-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-  .plot-sub { font-size: 12px; color: var(--text3); margin-bottom: 14px; }
-
-  /* ── Exercises ── */
-  .exercise { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin: 16px 0; }
-  .ex-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; cursor: pointer; }
-  .ex-header:hover { background: var(--bg2); }
-  .ex-qnum { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
-  .ex-qtitle { font-size: 14px; font-weight: 500; color: var(--text); margin-top: 2px; }
-  .ex-difficulty { font-size: 11px; padding: 2px 8px; border-radius: 10px; }
-  .diff-easy { background: var(--green-bg); color: var(--green); }
-  .diff-medium { background: var(--amber-bg); color: var(--amber-txt); }
-  .diff-hard { background: var(--red-bg); color: var(--red); }
-  .ex-toggle { font-size: 18px; color: var(--text3); transition: transform 0.2s; }
-  .ex-body { display: none; padding: 0 16px 16px; border-top: 0.5px solid var(--border); }
-  .ex-body.open { display: block; }
-  .ex-question { font-size: 14px; color: var(--text2); line-height: 1.7; margin: 12px 0; }
-  .answer-toggle { background: none; border: 0.5px solid var(--border); border-radius: var(--radius); padding: 7px 14px; font-size: 12.5px; cursor: pointer; color: var(--text2); font-family: var(--sans); margin-top: 10px; }
-  .answer-toggle:hover { background: var(--bg2); }
-  .answer-box { display: none; margin-top: 12px; background: var(--green-bg); border: 0.5px solid var(--green); border-radius: var(--radius); padding: 12px 16px; }
-  .answer-box.open { display: block; animation: fadeIn 0.2s ease; }
-  .answer-box .ans-label { font-size: 11px; font-weight: 500; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-  .answer-box p, .answer-box li { font-size: 13.5px; color: var(--text); line-height: 1.65; }
-
-  /* ── Quiz ── */
-  .quiz-q { font-size: 14.5px; font-weight: 500; color: var(--text); margin-bottom: 14px; line-height: 1.55; }
-  .quiz-opts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-  .quiz-opt { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border: 0.5px solid var(--border); border-radius: var(--radius); cursor: pointer; font-size: 13.5px; color: var(--text2); transition: all 0.12s; }
-  .quiz-opt:hover:not(.locked) { border-color: var(--blue); background: var(--blue-bg); color: var(--text); }
-  .quiz-opt.selected { border-color: var(--blue); background: var(--blue-bg); color: var(--text); }
-  .quiz-opt.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
-  .quiz-opt.wrong   { border-color: var(--red);   background: var(--red-bg);   color: var(--red); }
-  .quiz-opt .opt-key { width: 22px; height: 22px; border-radius: 50%; border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
-  .feedback { padding: 10px 14px; border-radius: var(--radius); font-size: 13.5px; line-height: 1.6; margin-bottom: 14px; display: none; }
-  .feedback.show { display: block; }
-  .feedback.ok { background: var(--green-bg); color: var(--green); border: 0.5px solid var(--green); }
-  .feedback.no { background: var(--red-bg); color: var(--red); border: 0.5px solid var(--red); }
-  .quiz-actions { display: flex; gap: 10px; }
-  .btn-check { padding: 8px 18px; background: var(--blue); color: #fff; border: none; border-radius: var(--radius); font-size: 13px; cursor: pointer; font-family: var(--sans); }
-  .btn-check:disabled { opacity: 0.4; cursor: default; }
-  .btn-next { padding: 8px 18px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 13px; cursor: pointer; background: none; color: var(--text2); font-family: var(--sans); display: none; }
-  .btn-next.show { display: inline-block; }
-  .quiz-progress { font-size: 11.5px; color: var(--text3); margin-bottom: 20px; }
-  .quiz-complete { text-align: center; padding: 32px 0; }
-  .quiz-complete .score-big { font-size: 48px; font-weight: 500; color: var(--text); }
-  .quiz-complete p { font-size: 14px; color: var(--text2); }
 </style>
 </head>
-
 <body>
-
-<!-- ── Sidebar ── -->
 <nav class="sidebar">
-  <div class="sidebar-brand">
-    <div class="brand-course">Foundational Statistics</div>
-    <div class="brand-title">Module 1: Data Foundations</div>
-  </div>
-  <div class="progress-wrap"><div class="progress-bar" id="sidebar-progress" style="width:8%"></div></div>
-
+  <div class="sidebar-brand"><div class="brand-course">Foundational Statistics</div><div class="brand-title">Module 1: Introduction to Statistics</div></div>
+  <div class="progress-wrap"><div class="progress-bar" id="sidebar-progress" style="width:8%;"></div></div>
   <div class="nav-section">Module 1</div>
   <a class="nav-item done" href="1-1-what-is-statistics.html"><div class="nav-dot"></div>1.1 What is statistics?</a>
   <a class="nav-item active" href="1-2-populations-samples-variables.html"><div class="nav-dot"></div>1.2 Populations & samples</a>
   <a class="nav-item" href="1-3-types-of-data.html"><div class="nav-dot"></div>1.3 Types of data</a>
   <a class="nav-item" href="1-4-tables-graphs.html"><div class="nav-dot"></div>1.4 Tables & graphs</a>
   <a class="nav-item" href="1-5-sampling-methods.html"><div class="nav-dot"></div>1.5 Sampling methods</a>
-
   <div class="nav-section">Module 2</div>
   <a class="nav-item" href="../module-2/2-1-measures-of-centre.html"><div class="nav-dot"></div>2.1 Measures of centre</a>
   <a class="nav-item" href="../module-2/2-2-measures-of-spread.html"><div class="nav-dot"></div>2.2 Measures of spread</a>
@@ -242,7 +188,6 @@
   <a class="nav-item" href="../module-2/2-5-correlation.html"><div class="nav-dot"></div>2.5 Correlation</a>
 </nav>
 
-<!-- ── Main ── -->
 <div class="main">
   <div class="tab-bar">
     <button class="tab active" onclick="showTab('lecture',this)">Lecture</button>
@@ -254,698 +199,257 @@
 
   <div class="content">
 
-    <!-- ════════════════════════════════════════
-         TAB 1 — LECTURE
-    ════════════════════════════════════════ -->
-    <section id="sec-lecture" class="section active">
-      <div class="lesson-eyebrow">Module 1 · Topic 2</div>
-      <h1>Populations, samples & variables</h1>
-      <div class="lesson-meta">Mr. R · Emma · Oliver · James · Sophia · ~16 min · Foundation level</div>
+<section id="sec-lecture" class="section active">
+  <div class="lesson-eyebrow">Module 1 · Topic 2</div>
+  <h1>Populations, samples and variables</h1>
+  <div class="lesson-meta">Mr. R · Emma, Oliver, James, Sophia · ~28 min · Introduction to statistics</div>
 
-      <div class="scene-label">📍 Scene — the same classroom, now with a small health survey on the board</div>
+  <div class="scene-label">📍 Scene — the class prepares its first real statistical study</div>
 
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-emma">EM</div>
-          <div class="bubble">
-            <div class="speaker-name">Emma</div>
-            <p>Last time we said statistics helps us learn from data. But when I open a dataset, I mostly see rows and columns. Where do populations and samples fit into that?</p>
-          </div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble">
-            <div class="speaker-name">Mr. R</div>
-            <p>Good question. Every dataset is a small window into a bigger world. The bigger world is the population. The window you actually observe is the sample. The columns you measure are variables.</p>
-          </div>
-        </div>
-        <div class="line">
-          <div class="speaker-badge sp-oliver">OL</div>
-          <div class="bubble">
-            <div class="speaker-name">Oliver</div>
-            <p>So if we measure 80 patients in a clinic, the 80 patients are the sample?</p>
-          </div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble">
-            <div class="speaker-name">Mr. R</div>
-            <p>Exactly. But the key question is: what larger population do those 80 patients represent? All patients in that clinic? All patients in the city? All patients with the same condition? Your answer changes the meaning of the whole study.</p>
-          </div>
-        </div>
-      </div>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-emma">EM</div><div class="bubble"><div class="speaker-name">Emma</div><p>Last time we said statistics helps us learn from data. But whose data are we learning from?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>Excellent starting point. In any statistical study, we must identify the population, the sample, the individuals or units, and the variables measured.</p></div></div>
+    <div class="line"><div class="speaker-badge sp-oliver">OL</div><div class="bubble"><div class="speaker-name">Oliver</div><p>Population means everyone in the country?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>Not always. Population means the complete group we want to understand. It could be all UK adults, all students in one university, all blood samples in a laboratory, or all plants in a field trial.</p></div></div>
+  </div>
 
-      <h2>The population is the target</h2>
-      <p>A <strong>population</strong> is not always “everyone in the world”. It is the full group you want your conclusion to be about. In statistics, defining the population is a scientific decision, not just a mathematical formality.</p>
+  <div class="def-box amber"><div class="def-label">Big idea</div><p>A statistical conclusion is only meaningful when we know who or what the data represent, what was measured, and how the observed sample relates to the target population.</p></div>
 
-      <div class="def-box">
-        <div class="def-label">Population</div>
-        <p>The complete set of individuals, objects, events, measurements, or units about which we want to make a statement.</p>
-      </div>
+  <h2>Population</h2>
+  <p>The population is the entire collection of individuals, units, cases or objects that the study is about. It is defined by the research question. If the question changes, the population may also change.</p>
 
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-james">JA</div>
-          <div class="bubble">
-            <div class="speaker-name">James</div>
-            <p>If I study 500 university students, can I say my population is all students in the country?</p>
-          </div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble">
-            <div class="speaker-name">Mr. R</div>
-            <p>Only if those 500 students were chosen in a way that reasonably represents all students in the country. Otherwise, your sample may describe your own university well, but not the whole country.</p>
-          </div>
-        </div>
-      </div>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-james">JA</div><div class="bubble"><div class="speaker-name">James</div><p>So the population is not always directly observed?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>Correct. Often the population is too large or impossible to observe completely. That is why we use a sample.</p></div></div>
+  </div>
 
-      <h2>The sample is what we observe</h2>
-      <p>A <strong>sample</strong> is the part of the population that enters our dataset. It may be large or small, carefully selected or convenient, balanced or biased. The quality of a sample is often more important than its size.</p>
+  <h2>Sample</h2>
+  <p>A sample is the subset of the population that is actually observed or measured. The sample provides evidence, but it may not perfectly represent the population.</p>
 
-      <div class="def-box green">
-        <div class="def-label">Sample</div>
-        <p>A subset of the population from which data are actually collected. Statistics computed from the sample are used to describe the sample and, when appropriate, infer something about the population.</p>
-      </div>
+  <div class="math-block">Population = complete group of interest</div>
+  <div class="math-block">Sample = observed subset of that group</div>
 
-      <h2>Variables are the things we measure</h2>
-      <p>Each column in a dataset usually represents a <strong>variable</strong>. A variable is a characteristic that can take different values for different observational units.</p>
+  <h2>Individuals or observational units</h2>
+  <p>The individuals, cases or observational units are the entities on which measurements are taken. These do not have to be people. They can be patients, schools, countries, cells, genes, leaves, hospitals, days, cities or trials.</p>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Dataset row</th><th>Observational unit</th><th>Possible variables</th></tr></thead>
-          <tbody>
-            <tr><td>One patient</td><td>Patient</td><td>Age, sex, blood pressure, diagnosis, treatment response</td></tr>
-            <tr><td>One school</td><td>School</td><td>School type, average score, number of teachers, region</td></tr>
-            <tr><td>One country-year</td><td>Country in a specific year</td><td>GDP, life expectancy, unemployment rate, disease incidence</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-sophia">SO</div><div class="bubble"><div class="speaker-name">Sophia</div><p>If we record temperature every day for a month, what are the observational units?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>The days are the observational units, because each day receives a temperature measurement.</p></div></div>
+  </div>
 
-      <div class="dialogue">
-        <div class="line">
-          <div class="speaker-badge sp-sophia">SO</div>
-          <div class="bubble">
-            <div class="speaker-name">Sophia</div>
-            <p>So rows are units, columns are variables, and the sample is the whole collection of rows?</p>
-          </div>
-        </div>
-        <div class="line right">
-          <div class="speaker-badge sp-prof">MR</div>
-          <div class="bubble">
-            <div class="speaker-name">Mr. R</div>
-            <p>Yes. That is the basic structure of most statistical datasets: rows are observational units, columns are variables, and the dataset is the sample we actually observe.</p>
-          </div>
-        </div>
-      </div>
+  <h2>Variables</h2>
+  <p>A variable is a characteristic that can vary from one observational unit to another. For students, variables may include age, height, programme of study, exam score, sleep duration and commute time.</p>
 
-      <h2>Why this matters</h2>
-      <p>Many statistical mistakes happen before any calculation is performed. If the population is unclear, the sample is biased, or the variables are poorly defined, even a correct formula can produce a misleading answer.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Study situation</th><th>Population</th><th>Sample</th><th>Variable</th></tr></thead><tbody>
+    <tr><td>University sleep study</td><td>All students in the university</td><td>120 students surveyed</td><td>Hours of sleep</td></tr>
+    <tr><td>Hospital waiting time study</td><td>All patients attending the clinic</td><td>300 recorded visits</td><td>Waiting time in minutes</td></tr>
+    <tr><td>Plant experiment</td><td>All plants under a condition of interest</td><td>60 measured plants</td><td>Leaf length</td></tr>
+    <tr><td>Election survey</td><td>All eligible voters</td><td>1,000 respondents</td><td>Voting intention</td></tr>
+  </tbody></table></div>
 
-      <div class="def-box amber">
-        <div class="def-label">Important idea</div>
-        <p>The same dataset can answer different questions depending on how the population, sample, unit of observation, and variables are defined.</p>
-      </div>
+  <h2>Why representativeness matters</h2>
+  <p>A sample should resemble the population in the features that matter for the research question. If some groups are over-represented or under-represented, the sample may give misleading conclusions.</p>
 
-      <div class="takeaway">
-        <div class="tk-label">Key takeaways from this lecture</div>
-        <ul>
-          <li>The population is the full group we want to understand.</li>
-          <li>The sample is the part of the population we actually observe.</li>
-          <li>Rows usually represent observational units; columns usually represent variables.</li>
-          <li>A variable must be defined carefully before it can be described or analysed.</li>
-          <li>Good descriptive statistics begin with clear definitions of units and variables.</li>
-        </ul>
-      </div>
-    </section>
+  <div class="dialogue">
+    <div class="line"><div class="speaker-badge sp-emma">EM</div><div class="bubble"><div class="speaker-name">Emma</div><p>If we only survey students in the library at midnight, can we generalise to all students?</p></div></div>
+    <div class="line right"><div class="speaker-badge sp-prof">MR</div><div class="bubble"><div class="speaker-name">Mr. R</div><p>We should be very cautious. That sample may over-represent students who study late or live near campus.</p></div></div>
+  </div>
 
-    <!-- ════════════════════════════════════════
-         TAB 2 — NOTES
-    ════════════════════════════════════════ -->
-    <section id="sec-notes" class="section">
-      <div class="lesson-eyebrow">Detailed descriptive notes</div>
-      <h1>Populations, samples & variables</h1>
+  <div class="takeaway"><div class="tk-label">Key takeaways from this lecture</div><ul>
+    <li>The population is the full group we want to understand.</li>
+    <li>The sample is the subset we actually observe.</li>
+    <li>The observational unit is the entity being measured.</li>
+    <li>A variable is a characteristic recorded on each unit.</li>
+    <li>The research question determines the correct population and variables.</li>
+    <li>A biased or unrepresentative sample can lead to misleading conclusions.</li>
+  </ul></div>
+</section>
 
-      <h2>1. Why this topic belongs to descriptive statistics</h2>
-      <p>Before we calculate a mean, draw a histogram, build a table, or compare two groups, we must know exactly <strong>what</strong> is being described. Descriptive statistics is not only about formulas. It begins with the structure of the data: the population, the sample, the observational units, and the variables.</p>
+<section id="sec-notes" class="section">
+  <div class="lesson-eyebrow">Detailed notes</div>
+  <h1>Populations, samples and variables</h1>
 
-      <div class="def-box">
-        <div class="def-label">Descriptive statistics perspective</div>
-        <p>Descriptive statistics asks: What data do we have, what do the rows represent, what do the columns measure, and how can these observations be summarised clearly without making unsupported generalisations?</p>
-      </div>
+  <h2>1. Population</h2>
+  <p>A population is the complete set of individuals, objects, events or measurements about which we want to draw conclusions. It is not necessarily large, national or human. It is defined by the research question.</p>
 
-      <h2>2. Population: the group of interest</h2>
-      <p>A population is the complete collection of units that we are interested in. In descriptive work, we may or may not generalise to the population, but we must still state the population clearly because it gives meaning to the sample.</p>
+  <div class="def-box"><div class="def-label">Definition — population</div><p>The population is the full collection of units that the study aims to describe or understand.</p></div>
 
-      <div class="def-box green">
-        <div class="def-label">Population</div>
-        <p>The full set of individuals, objects, events, institutions, measurements, or time points that are relevant to the question being studied.</p>
-      </div>
+  <p>Examples:</p>
+  <ul>
+    <li>All first-year undergraduate students at a university.</li>
+    <li>All patients diagnosed with a particular condition in a country.</li>
+    <li>All Arabidopsis plants grown under a certain experimental condition.</li>
+    <li>All days in a year for which rainfall could be recorded.</li>
+  </ul>
 
-      <p>Examples of populations include:</p>
-      <ul>
-        <li>all first-year university students at a particular university;</li>
-        <li>all patients diagnosed with hypertension in a hospital system during 2025;</li>
-        <li>all secondary schools in England;</li>
-        <li>all daily temperature readings from a city over ten years;</li>
-        <li>all households in a national census.</li>
-      </ul>
+  <h2>2. Target population and accessible population</h2>
+  <p>The target population is the group we truly want to generalise to. The accessible population is the group we can realistically reach or sample from.</p>
 
-      <div class="def-box amber">
-        <div class="def-label">Descriptive caution</div>
-        <p>Do not define the population after seeing the results. The target group should be defined before description and analysis, otherwise the interpretation becomes vague and potentially misleading.</p>
-      </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Concept</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+    <tr><td>Target population</td><td>The ideal group of interest</td><td>All adults in the UK</td></tr>
+    <tr><td>Accessible population</td><td>The group we can actually access</td><td>Adults registered with selected GP practices</td></tr>
+    <tr><td>Sample</td><td>The units actually observed</td><td>2,000 adults who completed the study</td></tr>
+  </tbody></table></div>
 
-      <h2>3. Sample: the observed part of the population</h2>
-      <p>A sample is the subset of the population for which data are actually available. In a spreadsheet, the sample is often represented by the full set of rows. Each row is usually one observational unit.</p>
+  <div class="def-box amber"><div class="def-label">Important warning</div><p>If the accessible population is very different from the target population, generalising results becomes risky.</p></div>
 
-      <div class="math-block">Sample size = n = number of observed units</div>
+  <h2>3. Sample</h2>
+  <p>A sample is a subset of the population selected for observation. The purpose of a sample is to provide evidence about the population while avoiding the cost, time or impossibility of measuring every unit.</p>
 
-      <p>For example, if a researcher records age, sex, BMI, and blood pressure for 120 patients, then the sample size is:</p>
-      <div class="math-block">n = 120</div>
+  <div class="math-block">Sample ⊂ Population</div>
 
-      <p>Descriptive statistics can summarise this sample directly. For instance, we may report the sample mean age, the number of males and females, the distribution of BMI, and the range of blood pressure values. These statements describe the observed sample. They do not automatically prove what is true in the population.</p>
+  <p>The quality of a sample depends on how it was selected, not only on its size. A large biased sample may be less useful than a smaller well-designed sample.</p>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Term</th><th>Meaning</th><th>Descriptive example</th></tr></thead>
-          <tbody>
-            <tr><td>Population</td><td>Full group of interest</td><td>All adults registered at a GP practice</td></tr>
-            <tr><td>Sample</td><td>Observed subset</td><td>250 adults whose records were reviewed</td></tr>
-            <tr><td>Sample size</td><td>Number of observed units</td><td>n = 250</td></tr>
-            <tr><td>Variable</td><td>Measured characteristic</td><td>Age, smoking status, systolic blood pressure</td></tr>
-            <tr><td>Value</td><td>Recorded measurement/category for one unit</td><td>Age = 42, smoking status = current smoker</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <h2>4. Census</h2>
+  <p>A census attempts to measure every unit in the population. In principle, a census removes sampling variation. In practice, it can still have measurement error, non-response, missing data and practical limitations.</p>
 
-      <h2>4. Observational units: what each row represents</h2>
-      <p>The observational unit is the basic object on which measurements are taken. A common beginner mistake is to confuse variables with units. For example, “blood pressure” is not an observational unit; it is a variable measured on a patient.</p>
+  <h2>5. Observational units</h2>
+  <p>The observational unit is the unit on which data are collected. Identifying the unit prevents confusion between rows, variables and populations.</p>
 
-      <div class="def-box">
-        <div class="def-label">Observational unit</div>
-        <p>The entity described by one row of the dataset. It may be a person, patient, school, household, country, event, trial, plant, cell, or time period.</p>
-      </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Data table row represents</th><th>Observational unit</th><th>Possible variables</th></tr></thead><tbody>
+    <tr><td>One student</td><td>Student</td><td>Age, exam score, sleep hours</td></tr>
+    <tr><td>One hospital</td><td>Hospital</td><td>Number of beds, waiting time, region</td></tr>
+    <tr><td>One patient visit</td><td>Visit</td><td>Waiting time, diagnosis, appointment type</td></tr>
+    <tr><td>One plant</td><td>Plant</td><td>Height, genotype, leaf count</td></tr>
+  </tbody></table></div>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Study question</th><th>Likely observational unit</th><th>Example variables</th></tr></thead>
-          <tbody>
-            <tr><td>How do patients differ in blood pressure?</td><td>Patient</td><td>Age, sex, systolic BP, diastolic BP</td></tr>
-            <tr><td>How do schools differ in exam performance?</td><td>School</td><td>School type, region, mean score, class size</td></tr>
-            <tr><td>How has inflation changed over time?</td><td>Month or year</td><td>Inflation rate, unemployment, interest rate</td></tr>
-            <tr><td>How do countries differ in life expectancy?</td><td>Country</td><td>Life expectancy, GDP, health spending</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <h2>6. Variables</h2>
+  <p>A variable is any characteristic that may take different values for different units. In a data table, variables usually appear as columns.</p>
 
-      <h2>5. Variables: characteristics that vary</h2>
-      <p>A variable is a characteristic that can take different values across observational units. The word “variable” is important because statistical description depends on variation. If everyone has exactly the same value, there is little to describe statistically.</p>
+  <div class="def-box"><div class="def-label">Definition — variable</div><p>A variable is a measured or recorded characteristic of an observational unit.</p></div>
 
-      <div class="def-box green">
-        <div class="def-label">Variable</div>
-        <p>A measured or recorded characteristic of an observational unit that can differ from unit to unit.</p>
-      </div>
+  <p>Variables can be numerical or categorical. More detailed types will be studied in Lesson 1.3.</p>
 
-      <p>Examples:</p>
-      <ul>
-        <li><strong>Age</strong> varies from person to person.</li>
-        <li><strong>Blood pressure</strong> varies across patients.</li>
-        <li><strong>Degree programme</strong> varies across students.</li>
-        <li><strong>Income group</strong> varies across households.</li>
-        <li><strong>Disease status</strong> varies between affected and unaffected individuals.</li>
-      </ul>
+  <h2>7. Parameters and statistics</h2>
+  <p>A parameter is a numerical summary of the population. A statistic is a numerical summary of the sample.</p>
 
-      <h2>6. Variable values and data entries</h2>
-      <p>A variable is the column name or concept; a value is the actual entry for one unit. For example, <strong>sex</strong> is a variable, while <strong>female</strong> is a value. <strong>Age</strong> is a variable, while <strong>21</strong> is a value.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Quantity</th><th>Population parameter</th><th>Sample statistic</th></tr></thead><tbody>
+    <tr><td>Mean</td><td>μ</td><td>x̄</td></tr>
+    <tr><td>Proportion</td><td>p</td><td>p̂</td></tr>
+    <tr><td>Standard deviation</td><td>σ</td><td>s</td></tr>
+  </tbody></table></div>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Student ID</th><th>Age</th><th>Degree level</th><th>Study hours per week</th><th>Passed exam?</th></tr></thead>
-          <tbody>
-            <tr><td>001</td><td>20</td><td>Undergraduate</td><td>14</td><td>Yes</td></tr>
-            <tr><td>002</td><td>24</td><td>Postgraduate</td><td>21</td><td>Yes</td></tr>
-            <tr><td>003</td><td>19</td><td>Undergraduate</td><td>8</td><td>No</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <p>Statistics are often used to estimate parameters. This is the foundation of statistical inference.</p>
 
-      <p>In this small dataset, the observational unit is a student. The variables are age, degree level, study hours per week, and exam result. The values are the individual entries such as 20, postgraduate, 8, and no.</p>
+  <h2>8. Sampling variation</h2>
+  <p>If we repeatedly take samples from the same population, the sample statistics will usually differ from sample to sample. This is called sampling variation.</p>
 
-      <h2>7. Types of variables from a descriptive viewpoint</h2>
-      <p>Different variable types require different descriptive summaries. A mean is meaningful for age or blood pressure, but not for eye colour or degree programme. A bar chart is useful for categories, while a histogram is useful for continuous measurements.</p>
+  <div class="math-block">Different samples → different sample statistics</div>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Variable type</th><th>Description</th><th>Examples</th><th>Good descriptive tools</th></tr></thead>
-          <tbody>
-            <tr><td>Categorical nominal</td><td>Categories with no natural order</td><td>Sex, blood group, treatment arm</td><td>Counts, percentages, bar charts</td></tr>
-            <tr><td>Categorical ordinal</td><td>Categories with a natural order</td><td>Pain severity, satisfaction level, cancer stage</td><td>Ordered counts, percentages, stacked bars</td></tr>
-            <tr><td>Discrete numerical</td><td>Numerical counts</td><td>Number of children, clinic visits, hospital admissions</td><td>Frequency tables, bar charts, mean/median</td></tr>
-            <tr><td>Continuous numerical</td><td>Measurements on a scale</td><td>Height, weight, blood pressure, time</td><td>Mean, SD, median, IQR, histogram, boxplot</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <p>Sampling variation is not a mistake. It is a natural consequence of observing only part of the population.</p>
 
-      <div class="def-box amber">
-        <div class="def-label">Important descriptive rule</div>
-        <p>The summary must match the variable type. Reporting the mean of a nominal category is usually meaningless, while reporting only counts for a continuous variable may hide important distributional features.</p>
-      </div>
+  <h2>9. Bias and representativeness</h2>
+  <p>A sample is biased if the method of selection systematically over-represents or under-represents certain parts of the population in a way that affects the study question.</p>
 
-      <h2>8. Describing categorical variables</h2>
-      <p>Categorical variables are described using frequencies and percentages. If a sample contains n observations and a category appears f times, then:</p>
+  <div class="def-box red"><div class="def-label">Bias warning</div><p>Increasing the sample size does not automatically fix bias. If the sampling method is flawed, a very large sample can still be misleading.</p></div>
 
-      <div class="math-block">Percentage in category = (f / n) × 100</div>
+  <h2>10. Common mistakes</h2>
+  <ul>
+    <li>Calling the sample the population.</li>
+    <li>Defining the population vaguely.</li>
+    <li>Forgetting that observational units do not have to be people.</li>
+    <li>Confusing variables with values of variables.</li>
+    <li>Assuming large samples are always representative.</li>
+    <li>Generalising beyond the population actually represented by the sample.</li>
+  </ul>
+</section>
 
-      <p>For example, if 42 out of 120 patients are current smokers, the percentage of current smokers is:</p>
+<section id="sec-interactive" class="section">
+  <div class="lesson-eyebrow">Interactive elements</div>
+  <h1>Exploring populations and samples</h1>
 
-      <div class="math-block">(42 / 120) × 100 = 35%</div>
+  <h2>1. Sampling variation demo</h2>
+  <p>Change the sample size and observe how the sample mean varies around the population mean.</p>
+  <div class="plot-box">
+    <div class="plot-title">Population mean versus sample mean</div>
+    <div class="plot-sub">The population mean is fixed at 100. The sample statistic changes because only a subset is observed.</div>
+    <div class="controls-row"><div class="ctrl"><label>Sample size</label><input type="range" id="sample-size" min="5" max="120" value="20" oninput="updateSamplingDemo()"><span class="ctrl-val" id="sample-label">20</span></div></div>
+    <div class="stat-row"><div class="stat-card"><div class="sc-label">Population mean</div><div class="sc-val">100.0</div></div><div class="stat-card"><div class="sc-label">Sample mean</div><div class="sc-val" id="sample-mean">—</div></div><div class="stat-card"><div class="sc-label">Sampling error</div><div class="sc-val" id="sample-error">—</div></div></div>
+    <div class="chart-wrap"><canvas id="samplingChart" role="img" aria-label="Chart showing population and sample mean"></canvas></div>
+  </div>
 
-      <p>A descriptive sentence would be: “In this sample of 120 patients, 42 patients (35%) were current smokers.” Notice the phrase <strong>in this sample</strong>. That phrase keeps the statement descriptive.</p>
+  <h2>2. Classify the concept</h2>
+  <p>Click the correct label for each study element.</p>
+  <div id="choice-area" class="choice-grid"></div>
+</section>
 
-      <h2>9. Describing numerical variables</h2>
-      <p>Numerical variables are often described using measures of centre and spread. Centre tells us where the data are concentrated. Spread tells us how variable the observations are.</p>
+<section id="sec-exercises" class="section">
+  <div class="lesson-eyebrow">Practice exercises</div>
+  <h1>Populations, samples and variables</h1>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Descriptive feature</th><th>Common summaries</th><th>What it tells us</th></tr></thead>
-          <tbody>
-            <tr><td>Centre</td><td>Mean, median</td><td>Typical or central value</td></tr>
-            <tr><td>Spread</td><td>Range, standard deviation, IQR</td><td>How far values differ from each other</td></tr>
-            <tr><td>Shape</td><td>Skewness, histogram shape</td><td>Whether the distribution is symmetric or skewed</td></tr>
-            <tr><td>Unusual values</td><td>Outliers, extreme values</td><td>Whether some observations are unusually high or low</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 1</div><div class="ex-qtitle">Identify population and sample</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">A university surveys 300 students to estimate average sleep time among all students at the university. Identify the population and sample.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>The population is all students at the university. The sample is the 300 students surveyed.</p></div></div></div>
 
-      <p>For a numerical variable such as systolic blood pressure, a strong descriptive summary may say:</p>
-      <div class="def-box green">
-        <div class="def-label">Example descriptive summary</div>
-        <p>Among the 120 patients in the sample, systolic blood pressure had a mean of 132.4 mmHg, a standard deviation of 14.8 mmHg, a median of 130 mmHg, and a range from 98 to 178 mmHg.</p>
-      </div>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 2</div><div class="ex-qtitle">Observational unit</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">A dataset records one row per hospital, including number of beds and average waiting time. What is the observational unit?</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>The observational unit is the hospital, because each row represents one hospital.</p></div></div></div>
 
-      <h2>10. Why descriptive statistics must avoid overclaiming</h2>
-      <p>Descriptive statistics tells us what was observed. It does not, by itself, tell us whether the sample represents a population, whether a treatment caused an effect, or whether the result would be repeated in another study.</p>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 3</div><div class="ex-qtitle">Identify a variable</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">In a study of students, the recorded columns are age, degree programme and exam score. Name the variables.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>The variables are age, degree programme and exam score.</p></div></div></div>
 
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Descriptive statement</th><th>Overclaiming version</th><th>Why the second is risky</th></tr></thead>
-          <tbody>
-            <tr><td>In this sample, the mean age was 29.6 years.</td><td>The population mean age is 29.6 years.</td><td>The sample may not represent the population perfectly.</td></tr>
-            <tr><td>In these patients, 35% were current smokers.</td><td>35% of all patients are smokers.</td><td>This generalises beyond the observed data.</td></tr>
-            <tr><td>The treatment group had a lower mean BP in this dataset.</td><td>The treatment lowers blood pressure.</td><td>Causal and inferential evidence is needed.</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 4</div><div class="ex-qtitle">Parameter or statistic</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">The true average height of all students in a university is unknown. Is this unknown average a parameter or a statistic?</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>It is a parameter because it describes the entire population of students at the university.</p></div></div></div>
 
-      <h2>11. A complete descriptive checklist</h2>
-      <p>Before producing descriptive statistics, ask these questions:</p>
-      <ol>
-        <li>What is the research question?</li>
-        <li>What is the target population?</li>
-        <li>What is the sample?</li>
-        <li>What does one row represent?</li>
-        <li>What are the variables?</li>
-        <li>What type is each variable?</li>
-        <li>What values or categories are possible?</li>
-        <li>Are there missing, impossible, or unusual values?</li>
-        <li>Which summary is appropriate for each variable?</li>
-        <li>Can the final statement be written without overgeneralising?</li>
-      </ol>
+  <div class="exercise"><div class="ex-header" onclick="toggleEx(this)"><div><div class="ex-qnum">Exercise 5</div><div class="ex-qtitle">Sampling bias</div></div><div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-hard">Hard</span><span class="ex-toggle">+</span></div></div><div class="ex-body"><p class="ex-question">A survey about student exercise habits is conducted only among members of the university gym. Explain the possible bias.</p><button class="answer-toggle" onclick="toggleAns(this)">Show answer</button><div class="answer-box"><div class="ans-label">Answer</div><p>Gym members are likely to exercise more than the average student, so the sample may overestimate exercise levels for the whole student population.</p></div></div></div>
+</section>
 
-      <div class="takeaway">
-        <div class="tk-label">Descriptive notes summary</div>
-        <ul>
-          <li>Population, sample, unit, variable, and value are the building blocks of descriptive statistics.</li>
-          <li>Rows usually represent observational units; columns usually represent variables.</li>
-          <li>Categorical variables are described using counts and percentages.</li>
-          <li>Numerical variables are described using centre, spread, shape, and unusual values.</li>
-          <li>Descriptive statements should stay close to the observed data unless inferential methods are used.</li>
-        </ul>
-      </div>
-    </section>
+<section id="sec-quiz" class="section">
+  <div class="lesson-eyebrow">Topic quiz</div>
+  <h1>Populations, samples and variables</h1>
+  <div id="quiz-container"></div>
+</section>
 
-    <!-- ════════════════════════════════════════
-         TAB 3 — INTERACTIVE
-    ════════════════════════════════════════ -->
-    <section id="sec-interactive" class="section">
-      <div class="lesson-eyebrow">Interactive elements</div>
-      <h1>Exploring populations, samples & variables</h1>
-
-      <h2>1. Build a dataset mentally</h2>
-      <p>Use the sliders to see how a dataset grows when we increase the number of observational units and variables.</p>
-
-      <div class="plot-box">
-        <div class="plot-title">Dataset size: rows × columns</div>
-        <div class="plot-sub">Rows represent observational units. Columns represent variables. Total data entries = rows × columns.</div>
-        <div class="controls-row">
-          <div class="ctrl">
-            <label>Rows / units</label>
-            <input type="range" id="rows-n" min="10" max="500" step="10" value="100" oninput="updateDatasetSize()">
-            <span class="ctrl-val" id="rows-n-val">100</span>
-          </div>
-          <div class="ctrl">
-            <label>Variables</label>
-            <input type="range" id="vars-n" min="2" max="30" step="1" value="6" oninput="updateDatasetSize()">
-            <span class="ctrl-val" id="vars-n-val">6</span>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="sc-label">Rows</div><div class="sc-val" id="rows-card">100</div></div>
-          <div class="stat-card"><div class="sc-label">Variables</div><div class="sc-val" id="vars-card">6</div></div>
-          <div class="stat-card"><div class="sc-label">Total entries</div><div class="sc-val" id="entries-card">600</div></div>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="datasetChart" role="img" aria-label="Bar chart showing rows, variables, and total entries"></canvas>
-        </div>
-      </div>
-
-      <h2>2. Classify the variable</h2>
-      <p>Click the best type for each variable. The explanation will tell you which descriptive summary is most appropriate.</p>
-      <div id="varclass-area" style="display:flex;flex-direction:column;gap:10px;margin:16px 0;"></div>
-
-      <h2>3. From frequency to percentage</h2>
-      <p>For categorical variables, descriptive statistics often begins with counts and percentages. Adjust n and f to see the percentage change.</p>
-
-      <div class="plot-box">
-        <div class="plot-title">Percentage calculator</div>
-        <div class="plot-sub">Percentage = (frequency / sample size) × 100</div>
-        <div class="controls-row">
-          <div class="ctrl">
-            <label>Sample size n</label>
-            <input type="range" id="pct-n" min="20" max="300" step="10" value="120" oninput="updatePercentage()">
-            <span class="ctrl-val" id="pct-n-val">120</span>
-          </div>
-          <div class="ctrl">
-            <label>Frequency f</label>
-            <input type="range" id="pct-f" min="0" max="120" step="1" value="42" oninput="updatePercentage()">
-            <span class="ctrl-val" id="pct-f-val">42</span>
-          </div>
-        </div>
-        <div class="stat-row">
-          <div class="stat-card"><div class="sc-label">Frequency</div><div class="sc-val" id="freq-card">42</div></div>
-          <div class="stat-card"><div class="sc-label">Sample size</div><div class="sc-val" id="n-card">120</div></div>
-          <div class="stat-card"><div class="sc-label">Percentage</div><div class="sc-val" id="pct-card">35%</div></div>
-        </div>
-        <div class="chart-wrap">
-          <canvas id="pctChart" role="img" aria-label="Pie chart showing percentage in category versus outside category"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════
-         TAB 4 — EXERCISES
-    ════════════════════════════════════════ -->
-    <section id="sec-exercises" class="section">
-      <div class="lesson-eyebrow">Practice exercises</div>
-      <h1>Populations, samples & variables</h1>
-      <p>Five exercises focused on identifying populations, samples, units, variables, and descriptive summaries.</p>
-
-      <div class="exercise">
-        <div class="ex-header" onclick="toggleEx(this)">
-          <div><div class="ex-qnum">Exercise 1</div><div class="ex-qtitle">Population, sample and unit</div></div>
-          <div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div>
-        </div>
-        <div class="ex-body">
-          <p class="ex-question">A researcher studies 180 MSc students at one university to describe their weekly study time. Identify: (a) the sample, (b) a possible population, (c) the observational unit, and (d) one variable.</p>
-          <button class="answer-toggle" onclick="toggleAns(this)">Show answer</button>
-          <div class="answer-box"><div class="ans-label">Answer</div>
-            <ol type="a">
-              <li>The sample is the 180 MSc students who were studied.</li>
-              <li>A possible population is all MSc students at that university. A wider population such as all MSc students in the UK would require stronger sampling justification.</li>
-              <li>The observational unit is one MSc student.</li>
-              <li>One variable is weekly study time, measured in hours.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-header" onclick="toggleEx(this)">
-          <div><div class="ex-qnum">Exercise 2</div><div class="ex-qtitle">Rows and columns</div></div>
-          <div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-easy">Easy</span><span class="ex-toggle">+</span></div>
-        </div>
-        <div class="ex-body">
-          <p class="ex-question">A dataset contains 75 rows and 8 columns. Each row is a patient. The columns are age, sex, BMI, smoking status, systolic blood pressure, cholesterol, treatment group, and outcome. How many observational units are there? How many variables are there? Give two categorical and two numerical variables.</p>
-          <button class="answer-toggle" onclick="toggleAns(this)">Show answer</button>
-          <div class="answer-box"><div class="ans-label">Answer</div>
-            <p>There are <strong>75 observational units</strong>, because each row is one patient. There are <strong>8 variables</strong>, because there are 8 columns. Categorical variables include sex, smoking status, treatment group, and outcome. Numerical variables include age, BMI, systolic blood pressure, and cholesterol.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-header" onclick="toggleEx(this)">
-          <div><div class="ex-qnum">Exercise 3</div><div class="ex-qtitle">Choosing descriptive summaries</div></div>
-          <div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div>
-        </div>
-        <div class="ex-body">
-          <p class="ex-question">For each variable, choose an appropriate descriptive summary: (a) blood group, (b) age, (c) pain severity recorded as mild/moderate/severe, (d) number of hospital visits in one year.</p>
-          <button class="answer-toggle" onclick="toggleAns(this)">Show answer</button>
-          <div class="answer-box"><div class="ans-label">Answer</div>
-            <ol type="a">
-              <li><strong>Blood group:</strong> counts and percentages, because it is nominal categorical.</li>
-              <li><strong>Age:</strong> mean and SD if roughly symmetric; median and IQR if skewed; histogram or boxplot for distribution.</li>
-              <li><strong>Pain severity:</strong> ordered counts and percentages, because it is ordinal categorical.</li>
-              <li><strong>Hospital visits:</strong> frequency table, median/IQR, and possibly mean; it is a discrete numerical count and may be skewed.</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-header" onclick="toggleEx(this)">
-          <div><div class="ex-qnum">Exercise 4</div><div class="ex-qtitle">Writing careful descriptive statements</div></div>
-          <div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-medium">Medium</span><span class="ex-toggle">+</span></div>
-        </div>
-        <div class="ex-body">
-          <p class="ex-question">In a sample of 200 adults, 58 report current smoking. Write a careful descriptive statement and calculate the percentage.</p>
-          <button class="answer-toggle" onclick="toggleAns(this)">Show answer</button>
-          <div class="answer-box"><div class="ans-label">Answer</div>
-            <p>Percentage = (58 / 200) × 100 = <strong>29%</strong>.</p>
-            <p>A careful descriptive statement is: <strong>“In this sample of 200 adults, 58 adults (29%) reported current smoking.”</strong> This is better than saying “29% of adults smoke,” because that would generalise beyond the observed sample.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-header" onclick="toggleEx(this)">
-          <div><div class="ex-qnum">Exercise 5</div><div class="ex-qtitle">Designing a descriptive table</div></div>
-          <div style="display:flex;align-items:center;gap:10px;"><span class="ex-difficulty diff-hard">Hard</span><span class="ex-toggle">+</span></div>
-        </div>
-        <div class="ex-body">
-          <p class="ex-question">You are given a dataset of 300 patients with age, sex, ethnicity, BMI, diabetes status, systolic blood pressure, and number of GP visits in the last year. Propose a descriptive Table 1 structure. Say which summaries you would use for each variable.</p>
-          <button class="answer-toggle" onclick="toggleAns(this)">Show answer</button>
-          <div class="answer-box"><div class="ans-label">Answer</div>
-            <p>A strong descriptive Table 1 could include:</p>
-            <ul>
-              <li><strong>Age:</strong> mean (SD) or median (IQR), depending on distribution.</li>
-              <li><strong>Sex:</strong> n (%).</li>
-              <li><strong>Ethnicity:</strong> n (%) for each category, with missing values reported if present.</li>
-              <li><strong>BMI:</strong> mean (SD) if approximately symmetric; median (IQR) if skewed.</li>
-              <li><strong>Diabetes status:</strong> n (%).</li>
-              <li><strong>Systolic blood pressure:</strong> mean (SD), plus range if useful.</li>
-              <li><strong>Number of GP visits:</strong> median (IQR) and/or frequency categories, because counts are often skewed.</li>
-            </ul>
-            <p>The table should clearly state the sample size, for example: “Characteristics of the 300 patients included in the descriptive analysis.”</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════
-         TAB 5 — QUIZ
-    ════════════════════════════════════════ -->
-    <section id="sec-quiz" class="section">
-      <div class="lesson-eyebrow">Topic quiz</div>
-      <h1>Populations, samples & variables</h1>
-      <div id="quiz-container"></div>
-    </section>
-
-  </div><!-- /content -->
-</div><!-- /main -->
+  </div>
+</div>
 
 <script>
-// ── Tab switching ──────────────────────────────────────────────────────────────
-function showTab(name, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('sec-' + name).classList.add('active');
-  btn.classList.add('active');
-  if (name === 'interactive') initInteractive();
-  if (name === 'quiz') initQuiz();
+function showTab(name, btn) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); document.getElementById('sec-' + name).classList.add('active'); btn.classList.add('active'); if (name === 'interactive') initInteractive(); if (name === 'quiz') initQuiz(); }
+function toggleEx(header){ const body=header.nextElementSibling; const tog=header.querySelector('.ex-toggle'); const open=body.classList.toggle('open'); tog.textContent=open?'−':'+'; }
+function toggleAns(btn){ const box=btn.nextElementSibling; const open=box.classList.toggle('open'); btn.textContent=open?'Hide answer':'Show answer'; }
+
+let samplingChart=null, interactiveInited=false;
+function updateSamplingDemo(){
+  const n=parseInt(document.getElementById('sample-size').value);
+  document.getElementById('sample-label').textContent=n;
+  const vals=[];
+  for(let i=0;i<n;i++){ vals.push(100 + 20*Math.sin(i*1.37) + 12*Math.cos(i*0.61)); }
+  const m=vals.reduce((a,b)=>a+b,0)/vals.length;
+  document.getElementById('sample-mean').textContent=m.toFixed(1);
+  document.getElementById('sample-error').textContent=(m-100).toFixed(1);
+  if(samplingChart) samplingChart.destroy();
+  samplingChart=new Chart(document.getElementById('samplingChart'),{type:'scatter',data:{datasets:[{label:'Sample observations',data:vals.map((y,i)=>({x:i+1,y})),pointRadius:4},{label:'Population mean',data:[{x:1,y:100},{x:n,y:100}],type:'line',pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{title:{display:true,text:'Sample observation',font:{size:11}},ticks:{font:{size:11}}},y:{min:50,max:150,title:{display:true,text:'Value',font:{size:11}},ticks:{font:{size:11}}}}}});
 }
 
-// ── Exercises toggle ──────────────────────────────────────────────────────────
-function toggleEx(header) {
-  const body = header.nextElementSibling;
-  const tog = header.querySelector('.ex-toggle');
-  const open = body.classList.toggle('open');
-  tog.textContent = open ? '−' : '+';
-}
-function toggleAns(btn) {
-  const box = btn.nextElementSibling;
-  const open = box.classList.toggle('open');
-  btn.textContent = open ? 'Hide answer' : 'Show answer';
-}
-
-let datasetChartInst = null;
-let pctChartInst = null;
-let interactiveInited = false;
-
-function updateDatasetSize() {
-  const rows = parseInt(document.getElementById('rows-n').value);
-  const vars = parseInt(document.getElementById('vars-n').value);
-  const entries = rows * vars;
-  document.getElementById('rows-n-val').textContent = rows;
-  document.getElementById('vars-n-val').textContent = vars;
-  document.getElementById('rows-card').textContent = rows;
-  document.getElementById('vars-card').textContent = vars;
-  document.getElementById('entries-card').textContent = entries.toLocaleString();
-
-  if (datasetChartInst) datasetChartInst.destroy();
-  datasetChartInst = new Chart(document.getElementById('datasetChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Rows / units', 'Variables', 'Total entries'],
-      datasets: [{ label: 'Count', data: [rows, vars, entries], backgroundColor: '#378ADD55', borderColor: '#378ADD', borderWidth: 1 }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
-      scales: { x: { ticks: { font: { size: 11 } } }, y: { beginAtZero: true, ticks: { font: { size: 11 } } } } }
-  });
-}
-
-const varScenarios = [
-  { text: 'Blood group: A, B, AB, or O', answer: 'Nominal', explanation: 'Blood group is categorical with no natural order. Use counts and percentages.' },
-  { text: 'Pain severity: mild, moderate, severe', answer: 'Ordinal', explanation: 'Pain severity is categorical, but the categories have a natural order. Use ordered counts and percentages.' },
-  { text: 'Number of hospital visits in one year', answer: 'Discrete', explanation: 'This is a numerical count. It can take values such as 0, 1, 2, 3, and is often skewed.' },
-  { text: 'Systolic blood pressure in mmHg', answer: 'Continuous', explanation: 'Blood pressure is a numerical measurement. Use mean/SD or median/IQR, plus plots such as histograms or boxplots.' }
+const choices=[
+  {title:'Population',sub:'All students at the university.',ok:true,why:'Correct. This is the full group the study wants to understand.'},
+  {title:'Sample',sub:'The 300 students who completed the survey.',ok:true,why:'Correct. These are the observed units.'},
+  {title:'Variable',sub:'Hours of sleep per night.',ok:true,why:'Correct. This is a characteristic measured on each student.'},
+  {title:'Parameter',sub:'The mean sleep time calculated from 300 surveyed students.',ok:false,why:'Careful. A mean calculated from a sample is a statistic, not a parameter.'}
 ];
 
-function initInteractive() {
-  if (interactiveInited) return;
-  interactiveInited = true;
-  const area = document.getElementById('varclass-area');
-  varScenarios.forEach((sc, i) => {
-    const div = document.createElement('div');
-    div.style.cssText = 'border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;';
-    div.innerHTML = `
-      <div style="padding:12px 16px;">
-        <div style="font-size:13.5px;color:var(--text);line-height:1.6;margin-bottom:10px;">${sc.text}</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button onclick="classifyVar(${i},'Nominal',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Nominal</button>
-          <button onclick="classifyVar(${i},'Ordinal',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Ordinal</button>
-          <button onclick="classifyVar(${i},'Discrete',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Discrete</button>
-          <button onclick="classifyVar(${i},'Continuous',this)" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:none;font-size:12.5px;cursor:pointer;font-family:var(--sans);color:var(--text2)">Continuous</button>
-        </div>
-        <div id="vf-${i}" style="display:none;margin-top:10px;padding:10px 12px;border-radius:var(--radius);font-size:13px;line-height:1.5;"></div>
-      </div>`;
-    area.appendChild(div);
-  });
-  updateDatasetSize();
-  updatePercentage();
+function initInteractive(){
+  if(interactiveInited) return; interactiveInited=true; updateSamplingDemo();
+  const area=document.getElementById('choice-area');
+  choices.forEach((c,i)=>{ const div=document.createElement('div'); div.className='choice-card'; div.onclick=()=>chooseCard(div,c); div.innerHTML=`<div class="choice-title">${c.title}</div><div class="choice-sub">${c.sub}</div><div id="ch-${i}" style="display:none;margin-top:10px;font-size:12.5px;line-height:1.5;"></div>`; area.appendChild(div); });
 }
+function chooseCard(div,c){ const fb=div.querySelector('[id^="ch-"]'); fb.style.display='block'; fb.style.color=c.ok?'var(--green)':'var(--red)'; fb.innerHTML=`<strong>${c.ok?'Good choice.':'Careful.'}</strong> ${c.why}`; }
 
-function classifyVar(idx, choice, btn) {
-  const sc = varScenarios[idx];
-  const fb = document.getElementById('vf-' + idx);
-  const correct = choice === sc.answer;
-  fb.style.display = 'block';
-  fb.style.background = correct ? 'var(--green-bg)' : 'var(--red-bg)';
-  fb.style.color = correct ? 'var(--green)' : 'var(--red)';
-  fb.style.border = correct ? '0.5px solid var(--green)' : '0.5px solid var(--red)';
-  fb.innerHTML = `<strong>${correct ? '✓ Correct.' : '✗ Not quite.'}</strong> ${sc.explanation}`;
-  btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
-}
-
-function updatePercentage() {
-  const nInput = document.getElementById('pct-n');
-  const fInput = document.getElementById('pct-f');
-  const n = parseInt(nInput.value);
-  if (parseInt(fInput.max) !== n) fInput.max = n;
-  let f = parseInt(fInput.value);
-  if (f > n) { f = n; fInput.value = n; }
-  const pct = n === 0 ? 0 : (f / n) * 100;
-  document.getElementById('pct-n-val').textContent = n;
-  document.getElementById('pct-f-val').textContent = f;
-  document.getElementById('freq-card').textContent = f;
-  document.getElementById('n-card').textContent = n;
-  document.getElementById('pct-card').textContent = pct.toFixed(1).replace('.0','') + '%';
-
-  if (pctChartInst) pctChartInst.destroy();
-  pctChartInst = new Chart(document.getElementById('pctChart'), {
-    type: 'doughnut',
-    data: { labels: ['In category', 'Not in category'], datasets: [{ data: [f, n - f], backgroundColor: ['#378ADD55', '#e0ddd6'], borderColor: ['#378ADD', '#e0ddd6'], borderWidth: 1 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
-  });
-}
-
-// ── Quiz ──────────────────────────────────────────────────────────────────────
-const quizData = [
-  { q: 'In a dataset where each row is one patient, what does one row represent?', opts: ['A variable', 'An observational unit', 'A population parameter', 'A percentage'], correct: 1, ok: 'Correct. One row usually represents one observational unit, such as one patient.', no: 'One row usually represents the observational unit. Variables are usually columns.' },
-  { q: 'Which statement is most clearly descriptive?', opts: ['The drug reduces blood pressure in adults', 'The population mean is 130 mmHg', 'In this sample, 42 of 120 patients were current smokers', 'Smoking causes higher blood pressure'], correct: 2, ok: 'Correct. It describes only the observed sample and does not overgeneralise.', no: 'The careful descriptive statement is the one limited to the observed sample.' },
-  { q: 'Which variable is nominal categorical?', opts: ['Pain level: mild/moderate/severe', 'Blood group', 'Number of admissions', 'Weight in kg'], correct: 1, ok: 'Correct. Blood group has categories but no natural order.', no: 'Blood group is nominal because its categories have no natural order.' },
-  { q: 'If 36 out of 150 students are postgraduate students, what percentage is this?', opts: ['12%', '18%', '24%', '36%'], correct: 2, ok: 'Correct. (36 / 150) × 100 = 24%.', no: 'Use percentage = (frequency / sample size) × 100 = (36 / 150) × 100 = 24%.' },
-  { q: 'Which summary is most appropriate for a nominal categorical variable?', opts: ['Mean and standard deviation', 'Counts and percentages', 'Correlation coefficient', 'Slope and intercept'], correct: 1, ok: 'Correct. Nominal categorical variables are described using counts and percentages.', no: 'Nominal categories should usually be summarised with counts and percentages.' }
+const quizData=[
+  {q:'The population is:',opts:['The full group of interest','Only the first row of data','Only numerical variables','Always a country'],correct:0,ok:'Correct. The population is the full group the study is about.',no:'The population is the full group of interest.'},
+  {q:'A sample is:',opts:['A subset actually observed','Always the entire population','A type of graph','A parameter'],correct:0,ok:'Correct. A sample is the observed subset.',no:'A sample is the subset actually observed.'},
+  {q:'An observational unit is:',opts:['The entity measured','The biggest value','The average only','A p-value'],correct:0,ok:'Correct. It is the unit on which data are collected.',no:'The observational unit is the entity being measured.'},
+  {q:'A variable is:',opts:['A characteristic that can vary between units','Only a population mean','A sampling method','Always a person'],correct:0,ok:'Correct. Variables are measured or recorded characteristics.',no:'A variable is a characteristic recorded on each unit.'},
+  {q:'A sample mean is usually a:',opts:['Statistic','Parameter','Population','Census'],correct:0,ok:'Correct. A sample summary is a statistic.',no:'A mean calculated from a sample is a statistic.'}
 ];
 
-let qIdx = 0, chosen = null, isAnswered = false, score = 0;
-
-function initQuiz() { qIdx = 0; chosen = null; isAnswered = false; score = 0; renderQ(); }
-
-function renderQ() {
-  if (qIdx >= quizData.length) {
-    document.getElementById('quiz-container').innerHTML = `
-      <div class="quiz-complete">
-        <div class="score-big">${score}/${quizData.length}</div>
-        <p style="margin-top:8px">${score === quizData.length ? 'Perfect — strong understanding of populations, samples and variables.' : score >= 3 ? 'Good work. Review any questions you missed.' : 'Revisit the notes and retry the quiz.'}</p>
-        <button class="btn-check" style="margin-top:20px" onclick="initQuiz()">Retry quiz</button>
-      </div>`;
-    return;
-  }
-  const q = quizData[qIdx];
-  document.getElementById('quiz-container').innerHTML = `
-    <div class="quiz-progress">Question ${qIdx + 1} of ${quizData.length}</div>
-    <div class="quiz-q">${q.q}</div>
-    <div class="quiz-opts" id="qopts">
-      ${q.opts.map((o, i) => `<div class="quiz-opt" id="qo${i}" onclick="selectOpt(${i})"><div class="opt-key">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}
-    </div>
-    <div class="feedback" id="qfb"></div>
-    <div class="quiz-actions">
-      <button class="btn-check" id="qbtn-check" onclick="checkQ()" disabled>Check answer</button>
-      <button class="btn-next" id="qbtn-next" onclick="nextQ()">${qIdx < quizData.length - 1 ? 'Next question →' : 'See result'}</button>
-    </div>`;
-  chosen = null; isAnswered = false;
+let qIdx=0,chosen=null,isAnswered=false,score=0;
+function initQuiz(){qIdx=0;chosen=null;isAnswered=false;score=0;renderQ()}
+function renderQ(){
+ if(qIdx>=quizData.length){document.getElementById('quiz-container').innerHTML=`<div class="quiz-complete"><div class="score-big">${score}/${quizData.length}</div><p style="margin-top:8px">${score===quizData.length?'Excellent — strong understanding of populations and samples.':score>=3?'Good work. Review the missed explanations.':'Review the notes, especially population, sample and variables.'}</p><button class="btn-check" style="margin-top:20px" onclick="initQuiz()">Retry quiz</button></div>`;return;}
+ const q=quizData[qIdx];
+ document.getElementById('quiz-container').innerHTML=`<div class="quiz-progress">Question ${qIdx+1} of ${quizData.length}</div><div class="quiz-q">${q.q}</div><div class="quiz-opts" id="qopts">${q.opts.map((o,i)=>`<div class="quiz-opt" id="qo${i}" onclick="selectOpt(${i})"><div class="opt-key">${['A','B','C','D'][i]}</div>${o}</div>`).join('')}</div><div class="feedback" id="qfb"></div><div class="quiz-actions"><button class="btn-check" id="qbtn-check" onclick="checkQ()" disabled>Check answer</button><button class="btn-next" id="qbtn-next" onclick="nextQ()">${qIdx<quizData.length-1?'Next question →':'See result'}</button></div>`;
+ chosen=null; isAnswered=false;
 }
-
-function selectOpt(i) {
-  if (isAnswered) return;
-  document.querySelectorAll('.quiz-opt').forEach(el => el.classList.remove('selected'));
-  document.getElementById('qo' + i).classList.add('selected');
-  chosen = i;
-  document.getElementById('qbtn-check').disabled = false;
-}
-
-function checkQ() {
-  if (chosen === null || isAnswered) return;
-  isAnswered = true;
-  const q = quizData[qIdx];
-  const fb = document.getElementById('qfb');
-  document.querySelectorAll('.quiz-opt').forEach((el, i) => {
-    el.classList.add('locked');
-    if (i === q.correct) el.classList.add('correct');
-    else if (i === chosen) el.classList.add('wrong');
-  });
-  const ok = chosen === q.correct;
-  if (ok) score++;
-  fb.className = 'feedback show ' + (ok ? 'ok' : 'no');
-  fb.textContent = ok ? q.ok : q.no;
-  document.getElementById('qbtn-check').disabled = true;
-  document.getElementById('qbtn-next').classList.add('show');
-}
-
-function nextQ() { qIdx++; renderQ(); }
+function selectOpt(i){ if(isAnswered) return; document.querySelectorAll('.quiz-opt').forEach(el=>el.classList.remove('selected')); document.getElementById('qo'+i).classList.add('selected'); chosen=i; document.getElementById('qbtn-check').disabled=false; }
+function checkQ(){ if(chosen===null||isAnswered) return; isAnswered=true; const q=quizData[qIdx]; const fb=document.getElementById('qfb'); document.querySelectorAll('.quiz-opt').forEach((el,i)=>{el.classList.add('locked'); if(i===q.correct) el.classList.add('correct'); if(i===chosen&&i!==q.correct) el.classList.add('wrong');}); const ok=chosen===q.correct; if(ok)score++; fb.className='feedback show '+(ok?'ok':'no'); fb.innerHTML=`<strong>${ok?'Correct.':'Not quite.'}</strong> ${ok?q.ok:q.no}`; document.getElementById('qbtn-check').disabled=true; document.getElementById('qbtn-next').classList.add('show'); }
+function nextQ(){qIdx++;renderQ()}
 </script>
+
 <!-- My Academic Tutor platform footer with logo -->
 <footer class="mat-platform-footer">
   <div class="mat-footer-brand">
